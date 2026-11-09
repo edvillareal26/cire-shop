@@ -1,26 +1,82 @@
 @import "tailwindcss";
 
+/* Cire brand palette (primary/secondary from Shopify brand settings). */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light;
+  --olive: #4c583e;
+  --olive-deep: #444830; /* hero photo backdrop */
+  --cream: #fff7e6;
+  --background: #fff7e6;
+  --foreground: #2e3226;
+  --muted: #6c6e5c;
+  --border: #e4d6b8;
+  --surface: #f6ead0;
+  --accent: #4c583e;
+  --accent-foreground: #fff7e6;
+  --badge: #c4555d;
+  --danger: #a3343c;
+  --success: #4c583e;
+  --header-h: 76px;
 }
 
 @theme inline {
+  --color-olive: var(--olive);
+  --color-olive-deep: var(--olive-deep);
+  --color-cream: var(--cream);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-surface: var(--surface);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-badge: var(--badge);
+  --color-danger: var(--danger);
+  --color-success: var(--success);
+  --font-sans: var(--font-montserrat);
+  --font-serif: var(--font-cormorant);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Merchant-authored HTML from Shopify (descriptions, pages, policies). */
+.rich-text {
+  line-height: 1.75;
+}
+.rich-text > * + * {
+  margin-top: 1em;
+}
+.rich-text h1,
+.rich-text h2,
+.rich-text h3 {
+  font-family: var(--font-cormorant), serif;
+  font-size: 1.6em;
+  line-height: 1.2;
+  margin-top: 1.6em;
+}
+.rich-text h3 {
+  font-size: 1.3em;
+}
+.rich-text ul {
+  list-style: disc;
+  padding-left: 1.25em;
+}
+.rich-text ol {
+  list-style: decimal;
+  padding-left: 1.25em;
+}
+.rich-text a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.rich-text strong {
+  font-weight: 600;
 }
