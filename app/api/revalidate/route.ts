@@ -1,45 +1,31 @@
-import { createHmac, timingSafeEqual } from "node:crypto";
+import crypto from "node:crypto";
+
 import { revalidateTag } from "next/cache";
-import { TAGS } from "@/lib/shopify";
+import { z } from "zod";
 
-/**
- * Shopify webhook endpoint. Point product, collection and inventory webhooks
- * (Shopify admin → Settings → Notifications → Webhooks) at /api/revalidate so
- * catalog changes show up without waiting for the hourly cache refresh.
- */
+const REVALIDATE_SECRET = process.env.REVALIDATE_SECRET;
+
+const REVALIDATE_TAGS = z.array(z.string().min(1).max(256)).min(1).max(20);
+
+function isAuthorized(header: string | null, secret: string): boolean {
+  // Hashing both values gives timingSafeEqual the equal-length inputs it requires.
+  const digest = (value: string) => crypto.createHash("sha256").update(value).digest();
+  return crypto.timingSafeEqual(digest(header ?? ""), digest(`Bearer ${secret}`));
+}
+
 export async function POST(request: Request) {
-  const secret = process.env.SHOPIFY_WEBHOOK_SECRET;
-  if (!secret) {
-    return Response.json(
-      { error: "SHOPIFY_WEBHOOK_SECRET is not configured" },
-      { status: 500 },
-    );
+  if (!REVALIDATE_SECRET) return new Response(null, { status: 404 });
+
+  if (!isAuthorized(request.headers.get("authorization"), REVALIDATE_SECRET)) {
+    return Response.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const body = await request.text();
-  const signature = Buffer.from(
-    request.headers.get("x-shopify-hmac-sha256") ?? "",
-  );
-  const expected = Buffer.from(
-    createHmac("sha256", secret).update(body, "utf8").digest("base64"),
-  );
-  if (
-    signature.length !== expected.length ||
-    !timingSafeEqual(signature, expected)
-  ) {
-    return Response.json({ error: "Invalid signature" }, { status: 401 });
+  const parsed = REVALIDATE_TAGS.safeParse(new URL(request.url).searchParams.getAll("tag"));
+  if (!parsed.success) {
+    return Response.json({ error: "Pass 1 to 20 tag parameters" }, { status: 400 });
   }
 
-  const topic = request.headers.get("x-shopify-topic") ?? "";
-  const tags: string[] = [];
-  if (topic.startsWith("products/") || topic.startsWith("inventory_levels/")) {
-    tags.push(TAGS.products);
-  }
-  if (topic.startsWith("collections/")) {
-    tags.push(TAGS.collections);
-  }
-
-  for (const tag of tags) revalidateTag(tag, "max");
-
+  const tags = [...new Set(parsed.data)];
+  for (const tag of tags) revalidateTag(tag, { expire: 0 });
   return Response.json({ revalidated: tags });
 }

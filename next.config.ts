@@ -1,26 +1,42 @@
+import { withBotId } from "botid/next/config";
+import { withEve } from "eve/next";
 import type { NextConfig } from "next";
 
+import { shopConfig } from "./lib/config";
+import { withShopConfig } from "./lib/config/server";
+
 const nextConfig: NextConfig = {
-  /* config options here */
   cacheComponents: true,
-  partialPrefetching: true,
-  redirects() {
-    return [{ source: "/products", destination: "/shop", permanent: true }];
-  },
   images: {
-    // Product and collection images served by Shopify's CDN.
+    deviceSizes: [1320, 1920],
+    imageSizes: [],
+    // Shopify images load straight from Shopify's CDN; see lib/media/image-loader.ts.
+    loader: "custom",
+    loaderFile: "./lib/media/image-loader.ts",
+    minimumCacheTTL: 31536000,
     remotePatterns: [
-      { protocol: "https", hostname: "cdn.shopify.com", pathname: "/**" },
+      {
+        hostname: "cdn.shopify.com",
+        protocol: "https",
+      },
     ],
+    unoptimized: !!process.env.V0_CALLBACK_URL,
   },
+  partialPrefetching: true,
+  // The `powered-by` header from lib/auth/request.ts already names Next.js.
+  poweredByHeader: false,
+  reactCompiler: true,
   turbopack: {
     rules: {
       "*.css": {
-        loaders: ["@tailwindcss/turbopack"],
         as: "*.css",
+        loaders: ["@tailwindcss/turbopack"],
       },
     },
   },
 };
 
-export default nextConfig;
+export default withShopConfig(nextConfig, [
+  shopConfig.botid.isEnabled && withBotId,
+  shopConfig.agent.isEnabled && withEve,
+]);

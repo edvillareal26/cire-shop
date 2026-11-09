@@ -1,94 +1,150 @@
-# Cire Lash Collection storefront
+# Cire Lash Collection
 
-A headless Shopify storefront for Cire Lash Collection, built with Next.js 16 (App Router, Cache Components) and the Shopify Storefront API.
+The Cire storefront, built on [Vercel Shop](https://github.com/vercel/shop) release 2026.11.1 (`.vercel-shop/template.json`). Template updates are applied with the `update-shop` skill.
 
-Shoppers browse, save favorites, and build a cart on this site. **Checkout and payment happen on Shopify's hosted checkout**, which takes shipping, taxes, discounts and payment (Shop Pay, cards, Apple Pay, Google Pay, …) and creates the order in Shopify admin.
+## Setup
 
-## Getting started
-
-```bash
-npm install
-npm run dev
+```sh
+pnpm install
+cp .env.example .env.local   # then fill in the values below
+pnpm dev
 ```
 
-Store credentials go in `.env.local`, which is git-ignored. Next.js does **not** read `.env.example`; that file only documents the variables and is committed, so keep real values out of it.
+- `NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN`, `NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN`, `NEXT_PUBLIC_SHOPIFY_SHOP_ID`: required.
+- `SHOPIFY_ADMIN_ACCESS_TOKEN`: opens The Cire List sign-ups at `/join` and in the home page's Cire Insider section (Admin API app with `read_customers` and `write_customers`).
 
-| Variable | Required | Description |
-| --- | --- | --- |
-| `SHOPIFY_STORE_DOMAIN` | yes | `ytbxyv-hu.myshopify.com` |
-| `SHOPIFY_STOREFRONT_ACCESS_TOKEN` | yes | Storefront API public access token (Headless sales channel) |
-| `SHOPIFY_STOREFRONT_API_VERSION` | no | Defaults to `2026-10` |
-| `SHOPIFY_ADMIN_ACCESS_TOKEN` | for sign-ups | Turns on the "Join the CIRE List" form (see below) |
-| `SHOPIFY_WEBHOOK_SECRET` | no | Lets catalog changes appear instantly (see below) |
+## Shopify content the storefront links to
 
-Without `SHOPIFY_STORE_DOMAIN`, the site falls back to the mock.shop demo catalog and shows a banner saying so.
+| Link                               | Create in Shopify admin                                                                                                                                                       |
+| ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| New Arrivals, Best Sellers, Sale   | Collections `new-arrivals` (sort newest), `best-sellers` (sort best selling), `sale`                                                                                          |
+| The Cire Set                       | Collection `the-cire-set` with the set products (e.g. from the Shopify Bundles app). It feeds the home section and the footer link; a compare-at price shows the "Save" badge |
+| Gift Cards                         | Product `gift-card`                                                                                                                                                           |
+| FAQs, Shipping & Returns           | Pages `faqs`, `shipping-returns`; a page `about` replaces the default About copy                                                                                              |
+| Shipping, Refund, Terms of Service | Settings → Policies                                                                                                                                                           |
 
-## Pages
+Contact email and social links are `CONTACT_EMAIL` and `SOCIAL_LINKS` in `components/footer/index.tsx`.
 
-| Route | Content |
-| --- | --- |
-| `/` | Hero, the collection, brand statement |
-| `/shop` | All products with category filters (from each product's *type* in Shopify). `/products` redirects here |
-| `/products/[handle]` | Gallery, curl/length/etc. options, add to cart, wishlist |
-| `/about` | Brand story. Create a Shopify page with the handle `about` to replace the default copy |
-| `/pages/[handle]` | Any page from Shopify admin → Online Store → Pages (e.g. Contact). Listed under **Other** |
-| `/policies/[handle]` | Policies from Shopify admin → Settings → Policies. Listed under **Other** |
-| `/search` | Product search |
-| `/wishlist` | Saved products (stored in a cookie on the shopper's device) |
-| `/cart` | Quantities, subtotal, **Check out** → Shopify checkout |
-| `/join` | "The Cire List" sign-up page: full-screen, without the store header and footer |
-| Account icon | Shopify's hosted customer accounts (sign in, orders) |
+The product page breadcrumb shows the product's first collection (other than the home page one), so it appears once products are in collections. The star rating beside the price reads Shopify's standard `reviews.rating` and `reviews.rating_count` metafields, which review apps such as Judge.me fill in; it stays hidden until a product has reviews. Shopify doesn't give storefronts a units-sold count, so the design's "Sold" figure isn't shown.
 
-The **Other** menu and the footer's Information column fill themselves from Shopify pages and policies, so new pages added in Shopify admin appear automatically.
+## Before launch
 
-## Brand assets
+- Remove the Online Store password: checkout redirects to it while it is on.
+- Shopify builds checkout links on the primary domain (`www.cirelashcollection.com`). Make a subdomain such as `checkout.cirelashcollection.com` primary in Shopify before pointing `www` at this site.
+- `public/images/cire-list-bg.jpg`, `cire-tools.jpg` and `cire-standard.jpg` are placeholders cropped from the design mockups; replace them with the original photos, keeping the same names.
 
-- `public/images/hero.jpg`: home page hero photo. The text sits on the olive backdrop on the left; the image is anchored right.
-- `public/images/cire-logo.png`: white wordmark used in the header, mobile menu and footer.
-- `public/images/cire-list-bg.jpg`: background photo for `/join`. **The current file is a placeholder** made from the design mockup; replace it with the original photo, keeping the same name.
-- `components/cire-emblem.tsx`: the woven diamond mark as an SVG, rebuilt from the brand artwork. Swap in the official vector if you have one.
+## Cire customizations
 
-Colors and fonts are defined in `app/globals.css` (olive `#4c583e` and cream `#fff7e6`, from Shopify's brand settings) and `app/layout.tsx` (Cormorant Garamond and Montserrat).
+- Brand: palette and fonts in `app/globals.css` and `app/layout.tsx`; `components/brand/` (logo, woven emblem). The store is olive with cream text; the home page switches back to cream with the `theme-cream` class.
+- Navigation and footer: `components/nav/`, `components/footer/index.tsx`, `lib/menu/server.ts` (Other menu from Shopify pages and policies). The logo sits centered on the home page and on the left everywhere else.
+- Cart: its own page at `/cart` (`components/cart/`); the template's slide-out drawer is removed. Add To Cart, quick add and the header cart icon all go to the page. Discount codes are entered at Shopify checkout, and shipping is calculated there.
+- Product page: `components/product-detail/` (gallery, breadcrumb, rating, options, buy buttons). Checkout Now buys just the chosen item through a `/buy/` permalink and leaves the cart alone; Buy with Shop is off in `lib/config/index.ts`.
+- Pages: `app/page.tsx` (home), `app/about/`, `app/join/` (The Cire List), `app/wishlist/`.
+- Home "Cire Insider" sign-up, the last section above the footer on the home page only: `components/home/cire-insider.tsx` with `components/join/subscribe-form.tsx`; both sign-up forms share `useJoinListForm` in `lib/newsletter/client.ts`.
+- Home "The Cire Tools" banner and "The Cire Standard": `components/home/tools-and-standard.tsx` (Be the first to know links to `/join`).
+- Categories (Lashes, Adhesives, Bonders, Primers): `lib/categories/index.ts`. Each is a Shopify **Product type** (Lash Extensions, Lash Adhesives, Lash Bonder, Lash Primer), so a product joins a category by its type and no collections are needed. The shop page (`/collections/all`) offers them as a **Product Type** filter in its Filters panel (several can be ticked at once; counts aren't shown because Shopify only counts the filters enabled in Search & Discovery); the home page's Shop the Essentials arches, the footer's category links and the product breadcrumb open the shop page with that category selected. The filter rides on Shopify search syntax (`product_type:"…"`), so it works without enabling a Product type filter in Search & Discovery. To add a category, add its product type to that list.
+- Home "Shop the Essentials": `components/home/shop-the-essentials.tsx`. Each arch shows the best-selling product of its category.
+- Images: Shopify images load straight from Shopify's CDN at the requested width (`lib/media/image-loader.ts`), which serves WebP or AVIF. Next's own optimizer gives up on a source after 7 seconds, which large product PNGs exceeded on slower connections. With the custom loader that optimizer is off, so local images in `public/` render with `unoptimized`.
+- Domains: `lib/wishlist/`, `lib/newsletter/`, `lib/shopify/admin/server.ts`; `/join` hides the store chrome through `components/layout/`.
 
-## Footer
+---
 
-- **Contact email and social links:** set them in `lib/site.ts`. Empty values are hidden; with no email, "Contact Us" links to the Contact page.
-- **Payment marks** are listed in `lib/site.ts` (SVGs in `public/images/payment/`, MIT-licensed from Shopify's `payment_icons`).
-- **Shop links** (New Arrivals, Best Sellers, Sale, Eyelash Trays, Adhesives, Bonders, Primers) are generated pages under `/shop/…`, defined in `lib/shop-views.ts`. Categories match each product's **Product type** in Shopify. Sale lists products whose compare-at price is above their price.
-- **Content links** go to Shopify's default handles, so each one starts working once that content exists:
+# Vercel Shop
 
-| Footer link | Create in Shopify admin |
-| --- | --- |
-| The Cire Set | Product with handle `the-cire-set` |
-| Gift Cards | Gift card product with handle `gift-card` |
-| FAQs | Online Store → Pages, handle `faqs` |
-| Shipping & Returns | Online Store → Pages, handle `shipping-returns` |
-| Shipping Policy, Refund Policy, Terms of Service | Settings → Policies |
+Agent-ready commerce, powered by Shopify, Next, and Eve.
 
-## "Join the CIRE List" sign-ups
+- **Shopify owns commerce.** Catalog, cart, checkout, customer accounts, predictive search, and policies come from Shopify through the framework-agnostic Hydrogen SDK (not the Hydrogen React Router framework).
+- **Next.js owns the app.** Routing, Server Components, caching and invalidation, metadata, and the storefront's machine-readable surface for answer engines: Markdown representations, `/llms.txt`, structured data, and the sitemap.
+- **Eve owns the agent.** Shop Agent's sessions, tools, and connections; its tools call Shopify directly.
 
-The Storefront API can't subscribe an email by itself, so sign-ups use the Admin API:
+See [vercel.shop](https://vercel.shop) for full documentation.
 
-1. Shopify admin → Settings → Apps and sales channels → Develop apps → **Create an app**.
-2. Grant the Admin API scopes `read_customers` and `write_customers`, and allow access to protected customer data (email).
-3. Install the app and put its Admin API access token in `SHOPIFY_ADMIN_ACCESS_TOKEN`.
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fshop&project-name=shop&repository-name=shop&demo-title=Vercel+Shop&demo-url=https%3A%2F%2Fshop-template.vercel.app&env=NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN%2CNEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN%2CNEXT_PUBLIC_SHOPIFY_SHOP_ID&envDescription=Required%20Shopify%20store%20domain%2C%20Storefront%20API%20token%2C%20and%20shop%20ID&envLink=https%3A%2F%2Fvercel.shop%2Fdocs%2Freference%2Fenv-vars)
 
-The form lives on `/join` (linked from "Join the CIRE List →" in the top bar). Subscribers appear in Shopify admin → Customers with email marketing subscribed and the tag `newsletter`. Until the token is set, the form replies "Sign-ups aren't open yet."
+Vercel prompts for the three required Shopify values before the first deployment.
 
-## Before going live: checkout domain
+## Getting Started
 
-Shopify builds checkout links on the store's **primary domain** (currently `www.cirelashcollection.com`, which still points at Shopify). If you point `www` at this site, those links would land here and fail. Before switching DNS:
+1. Create a new project with pnpm 12 and Node.js 26:
 
-1. In Shopify admin → Settings → Domains, connect a subdomain such as `checkout.cirelashcollection.com` and make it the **primary** domain.
-2. Point `www.cirelashcollection.com` at this site's host.
+```sh
+pnpm create next-app@latest my-store --example https://github.com/vercel/shop
+```
 
-## Instant catalog updates (optional)
+The project includes the Shop skills for your agent in `.agents/skills/`.
 
-Set `SHOPIFY_WEBHOOK_SECRET` to the signing secret under Settings → Notifications → Webhooks. Then add JSON webhooks pointing to `https://<your-site>/api/revalidate` for `products/*`, `collections/*` and `inventory_levels/update`. Without webhooks, catalog changes appear within about an hour.
+2. In Shopify admin, create a storefront token in **Settings → Apps and sales channels → Headless**, enable the required Storefront API permissions, then add your Shopify credentials:
 
-## How it works
+```sh
+cp .env.example .env.local
+```
 
-- `lib/shopify/` holds the Storefront API client, queries and types. `lib/shopify/admin.ts` is the newsletter Admin API call.
-- Storefront pages live in `app/(site)/`, whose layout adds the announcement bar, header and footer. `/join` sits outside that group so it renders on its own.
-- Catalog and content are cached with `'use cache'` and prerendered. Cart, wishlist and search results are per-visitor and stream in behind `<Suspense>`.
-- Cart and wishlist live in `httpOnly` cookies and change through Server Actions (`app/cart/actions.ts`, `app/wishlist/actions.ts`).
+```
+NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN=your-store.myshopify.com
+NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN=your-token
+NEXT_PUBLIC_SHOPIFY_SHOP_ID=123456789
+```
+
+3. Start the development server:
+
+```sh
+pnpm dev
+```
+
+For local HTTPS, install [Portless](https://portless.sh) globally with `pnpm add -g portless`, then run `pnpm dev:portless`.
+
+See [vercel.shop/docs/getting-started](https://vercel.shop/docs/getting-started) for the full setup guide and [Storefront API Permissions](https://vercel.shop/docs/reference/storefront-api-permissions) for the complete scope reference.
+
+## Features
+
+Shopify
+
+- Product, collection, search, blog, page, and policy content from the Storefront API with typed GraphQL
+- Optimistic cart with Hydrogen forms, shared cart state, and server handlers
+- Customer accounts through the Customer Account API, opt-in
+- Shopify analytics, consent, and WebMCP tool registration, opt-in
+
+Next.js
+
+- Next.js 16 App Router, React 19, React Compiler, Tailwind CSS 4, shadcn/ui
+- Partial prerendering with tagged caches invalidated by Shopify webhooks
+- Markdown representations, `/llms.txt`, Schema.org data, sitemap, and robots for answer engines
+- Single-locale storefront by default; skills add next-intl and Shopify Markets
+
+Eve
+
+- Shop Agent for product discovery, store questions, and cart updates in a side drawer, opt-in
+- Shopify catalog and policy MCP connections plus Hydrogen cart handlers
+
+Customer authentication is disabled by default. Follow the [authentication guide](https://vercel.shop/docs/anatomy/authentication) to configure Shopify credentials and callback URLs before enabling `auth.isEnabled` in `lib/config/index.ts`.
+
+Shop Agent is disabled by default. Set `agent.isEnabled` to `true` in `lib/config/index.ts` and follow the [Shop Agent guide](https://vercel.shop/docs/anatomy/agent) to configure AI Gateway access, turn on bot protection, and review privacy and spending safeguards before enabling public chat.
+
+## Skills
+
+Shop skills guide agents through storefront setup and common commerce patterns. They ship in `.agents/skills/`, and Claude Code reads them through the `.claude/skills` symlink. To add them to an existing storefront, run this from its root:
+
+```sh
+pnpm dlx skills add vercel/shop --skill '*' --yes
+```
+
+Use the plain skill names below. Shopify AI Toolkit is separate external tooling for authoritative Shopify documentation, API schemas, and operation validation; the Shop skills do not include it. If it is unavailable, use official Shopify documentation and validation tooling.
+
+| Skill                       | Description                                                           |
+| --------------------------- | --------------------------------------------------------------------- |
+| `init-vercel-shop`          | Scaffold a storefront and configure Shopify credentials               |
+| `build-shop`                | Build or adapt storefront routes with Vercel Shop patterns            |
+| `shopify-graphql-reference` | Add Shopify-validated GraphQL operations in the template's layout     |
+| `enable-analytics`          | Add Vercel Analytics, Speed Insights, and Google Tag Manager          |
+| `enable-i18n`               | Locale-prefixed URL routing + next-intl message catalogs (no Markets) |
+| `enable-shopify-markets`    | Multi-locale support with Shopify Markets and next-intl               |
+| `enable-shopify-menus`      | Replace hardcoded nav/footer links with Shopify-managed menus         |
+| `update-shop`               | Keep a storefront current with template changes                       |
+
+## Documentation
+
+Full documentation is available at [vercel.shop](https://vercel.shop).
+
+## License
+
+MIT

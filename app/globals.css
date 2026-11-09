@@ -1,82 +1,222 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
-/* Cire brand palette (primary/secondary from Shopify brand settings). */
+@plugin '@tailwindcss/typography';
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-shop: #5A31F4;
+  --color-badge: var(--badge);
+  --color-cream: var(--cream);
+  --color-olive: var(--olive);
+  --color-olive-deep: var(--olive-deep);
+  --font-mono: var(--font-montserrat);
+  --font-sans: var(--font-montserrat);
+  --font-serif: var(--font-cormorant);
+  --text-xxs: 0.625rem;
+
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-positive: var(--positive);
+  --color-positive-foreground: var(--positive-foreground);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+/* Cire palette: olive #4c583e and cream #fff7e6 come from the Shopify brand settings.
+   The store is olive with cream text; the home page opts back into cream with `theme-cream`. */
 :root {
-  color-scheme: light;
-  --olive: #4c583e;
-  --olive-deep: #444830; /* hero photo backdrop */
+  --radius: 0.375rem;
+  --background: #4c583e;
+  --foreground: #fff7e6;
+  --card: #55613f;
+  --card-foreground: #fff7e6;
+  --popover: #444830;
+  --popover-foreground: #fff7e6;
+  --primary: #fff7e6;
+  --primary-foreground: #2e3226;
+  --secondary: #5a6649;
+  --secondary-foreground: #fff7e6;
+  --muted: #56624a;
+  --muted-foreground: #cfcbb5;
+  --accent: #5a6649;
+  --accent-foreground: #fff7e6;
+  --destructive: #f0a8a4;
+  --destructive-foreground: #2e3226;
+  --positive: #cfe0ae;
+  --positive-foreground: #2e3226;
+  --border: #828870;
+  --input: #828870;
+  --ring: #fff7e6;
+  --badge: #c4555d;
   --cream: #fff7e6;
+  --olive: #4c583e;
+  --olive-deep: #444830;
+}
+
+.theme-cream {
+  --radius: 0.125rem;
   --background: #fff7e6;
   --foreground: #2e3226;
-  --muted: #6c6e5c;
+  --card: #fffaf0;
+  --card-foreground: #2e3226;
+  --popover: #fffaf0;
+  --popover-foreground: #2e3226;
+  --primary: #4c583e;
+  --primary-foreground: #fff7e6;
+  --secondary: #f6ead0;
+  --secondary-foreground: #2e3226;
+  --muted: #f6ead0;
+  --muted-foreground: #6c6e5c;
+  --accent: #efe2c4;
+  --accent-foreground: #2e3226;
+  --destructive: #a3343c;
+  --destructive-foreground: #fff7e6;
+  --positive: #4c583e;
+  --positive-foreground: #fff7e6;
   --border: #e4d6b8;
-  --surface: #f6ead0;
-  --accent: #4c583e;
-  --accent-foreground: #fff7e6;
-  --badge: #c4555d;
-  --danger: #a3343c;
-  --success: #4c583e;
-  --header-h: 76px;
+  --input: #e4d6b8;
+  --ring: #4c583e;
+}
+
+/* Unlayered so it beats `prose-neutral`: Shopify pages and descriptions follow the theme colors. */
+.prose {
+  --tw-prose-body: color-mix(in oklab, var(--foreground) 90%, transparent);
+  --tw-prose-headings: var(--foreground);
+  --tw-prose-lead: var(--foreground);
+  --tw-prose-links: var(--foreground);
+  --tw-prose-bold: var(--foreground);
+  --tw-prose-counters: var(--muted-foreground);
+  --tw-prose-bullets: var(--muted-foreground);
+  --tw-prose-hr: var(--border);
+  --tw-prose-quotes: var(--foreground);
+  --tw-prose-quote-borders: var(--border);
+  --tw-prose-captions: var(--muted-foreground);
+  --tw-prose-kbd: var(--foreground);
+  --tw-prose-code: var(--foreground);
+  --tw-prose-pre-code: var(--foreground);
+  --tw-prose-pre-bg: var(--muted);
+  --tw-prose-th-borders: var(--border);
+  --tw-prose-td-borders: var(--border);
+}
+
+@layer components {
+  .prose :where(h1, h2, h3, h4):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    letter-spacing: -0.025em; /* tracking-tight */
+    font-weight: 400;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  button,
+  [role="button"] {
+    cursor: pointer;
+  }
+  button:disabled,
+  [role="button"][aria-disabled="true"] {
+    cursor: not-allowed;
+  }
+}
+
+/* Long-dash divider from the Cire product page design; color it with a text color. */
+@utility dashed-rule {
+  height: 1px;
+  border: 0;
+  background: linear-gradient(90deg, currentColor 60%, transparent 0) 0 0 / 12px 1px repeat-x;
+}
+
+@layer utilities {
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .scrollbar-hide {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+}
+
+/* Text shimmer for live agent status (shadcn shimmer utility). */
+@property --shimmer-angle {
+  syntax: "<angle>";
+  inherits: true;
+  initial-value: 20deg;
+}
+@property --shimmer-image {
+  syntax: "*";
+  inherits: false;
+}
+@property --shimmer-text-fill {
+  syntax: "*";
+  inherits: false;
 }
 
 @theme inline {
-  --color-olive: var(--olive);
-  --color-olive-deep: var(--olive-deep);
-  --color-cream: var(--cream);
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-muted: var(--muted);
-  --color-border: var(--border);
-  --color-surface: var(--surface);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-badge: var(--badge);
-  --color-danger: var(--danger);
-  --color-success: var(--success);
-  --font-sans: var(--font-montserrat);
-  --font-serif: var(--font-cormorant);
+  @keyframes tw-shimmer {
+    from {
+      background-position: 100% 0;
+    }
+    to {
+      background-position: 0 0;
+    }
+  }
 }
 
-html {
-  scroll-behavior: smooth;
+@utility shimmer {
+  --_spread: var(--shimmer-spread, calc(3ch + 40px));
+  --_base: currentColor;
+  --_highlight: var(--shimmer-color, oklch(from currentColor l c h / calc(alpha * 0.2)));
+
+  background-image: var(
+    --shimmer-image,
+    linear-gradient(
+      calc(90deg + var(--shimmer-angle)),
+      var(--_base) calc(50% - var(--_spread)),
+      color-mix(in oklch, var(--_highlight), var(--_base) 50%) calc(50% - var(--_spread) * 0.5),
+      var(--_highlight) 50%,
+      color-mix(in oklch, var(--_highlight), var(--_base) 50%) calc(50% + var(--_spread) * 0.5),
+      var(--_base) calc(50% + var(--_spread))
+    )
+  );
+  background-repeat: no-repeat;
+  background-size: calc(200% + var(--_spread) * 2) 100%;
+  background-position: 0 0;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: var(--shimmer-text-fill, transparent);
+  animation: tw-shimmer var(--shimmer-duration, 2s) linear infinite;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
-}
-
-/* Merchant-authored HTML from Shopify (descriptions, pages, policies). */
-.rich-text {
-  line-height: 1.75;
-}
-.rich-text > * + * {
-  margin-top: 1em;
-}
-.rich-text h1,
-.rich-text h2,
-.rich-text h3 {
-  font-family: var(--font-cormorant), serif;
-  font-size: 1.6em;
-  line-height: 1.2;
-  margin-top: 1.6em;
-}
-.rich-text h3 {
-  font-size: 1.3em;
-}
-.rich-text ul {
-  list-style: disc;
-  padding-left: 1.25em;
-}
-.rich-text ol {
-  list-style: decimal;
-  padding-left: 1.25em;
-}
-.rich-text a {
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-.rich-text strong {
-  font-weight: 600;
+@media (prefers-reduced-motion: reduce) {
+  .shimmer {
+    animation: none;
+    background-image: none;
+    -webkit-text-fill-color: currentColor;
+  }
 }
