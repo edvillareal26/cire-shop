@@ -5,6 +5,7 @@ import { CireInsider } from "@/components/home/cire-insider";
 import { ShopTheEssentials } from "@/components/home/shop-the-essentials";
 import { TheCireSet } from "@/components/home/the-cire-set";
 import { CireStandard, ToolsComingSoon } from "@/components/home/tools-and-standard";
+import { FullPage } from "@/components/layout/full-page";
 import { Link } from "@/components/ui/link";
 import { Page } from "@/components/ui/page";
 import { shopConfig } from "@/lib/config";
@@ -28,17 +29,24 @@ export default function HomePage() {
     <Page className="theme-cream bg-background pt-0 text-foreground">
       <Hero />
       <ShopTheEssentials />
-      <ToolsComingSoon />
-      <CireStandard />
+      {/* The Tools photo is banner-sized, too small to fill a screen alone, so it shares one with The Cire Standard. */}
+      <div className="grid min-h-section grid-rows-[auto_1fr]" data-full-page-section>
+        <ToolsComingSoon />
+        <CireStandard />
+      </div>
       <TheCireSet />
       <CireInsider />
+      <FullPage />
     </Page>
   );
 }
 
 function Hero() {
   return (
-    <section className="relative isolate -mt-19 flex h-[calc(100svh-2.25rem)] max-h-225 min-h-150 overflow-hidden bg-olive-deep text-cream">
+    <section
+      className="relative isolate -mt-19 flex h-[calc(100svh-2.25rem)] min-h-150 overflow-hidden bg-olive-deep text-cream"
+      data-full-page-section
+    >
       <Image
         alt=""
         className="-z-10 object-cover object-[88%_center] lg:object-right"

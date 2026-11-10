@@ -34,7 +34,8 @@ async function ResolvedCireSet() {
   return (
     <section
       aria-labelledby="cire-set-heading"
-      className="bg-olive py-20 text-cream sm:pt-24 sm:pb-36"
+      className="grid min-h-section content-center bg-olive py-20 text-cream sm:pt-24 sm:pb-36"
+      data-full-page-section
     >
       <Container className="grid gap-10 sm:gap-8 lg:px-[5.8%]">
         <header className="relative grid justify-items-center pt-21 text-center sm:pt-[clamp(5.5rem,7.4vw,6.75rem)]">

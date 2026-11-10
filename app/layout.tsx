@@ -12,6 +12,7 @@ import { CartUI } from "@/components/cart/cart-ui";
 import { CartProviderWrapper } from "@/components/cart/context";
 import { CartStandardActionsScript } from "@/components/cart/standard-actions";
 import { Footer } from "@/components/footer";
+import { PageTransition } from "@/components/layout/page-transition";
 import { RouteSegmentMarker } from "@/components/layout/route-segment-client";
 import { StorefrontChrome } from "@/components/layout/storefront-chrome";
 import { Nav } from "@/components/nav";
@@ -60,6 +61,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <CartProviderWrapper cartData={cartData}>
           <Suspense>
             <RouteSegmentMarker />
+          </Suspense>
+          <Suspense>
+            <PageTransition />
           </Suspense>
           <StorefrontChrome>
             <Nav />

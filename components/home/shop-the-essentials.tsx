@@ -24,7 +24,8 @@ export function ShopTheEssentials() {
   return (
     <section
       aria-labelledby="essentials-heading"
-      className="scroll-mt-19 bg-olive py-20 text-cream sm:py-28"
+      className="grid min-h-section scroll-mt-19 content-center bg-olive py-20 text-cream sm:py-28"
+      data-full-page-section
       id="essentials"
     >
       <Container className="grid gap-12 sm:gap-16 lg:px-[6%]">

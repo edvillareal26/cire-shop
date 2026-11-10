@@ -1,7 +1,10 @@
 "use client";
 
 import NextLink from "next/link";
+import { useRouter } from "next/navigation";
 import { type ComponentProps, type Ref, useEffect, useRef, useState } from "react";
+
+import { leavePage } from "@/lib/page-transition/client";
 
 const HOVER_INTENT_DELAY_MS = 100;
 const SETTLE_INTENT_DELAY_MS = 300;
@@ -128,14 +131,18 @@ export function Link({
   href,
   onBlur,
   onFocus,
+  onNavigate,
   onPointerCancel,
   onPointerDown,
   onPointerEnter,
   onPointerLeave,
   prefetch = "intent",
   ref,
+  replace,
+  scroll,
   ...props
 }: LinkProps) {
+  const router = useRouter();
   const destinationKey = JSON.stringify([href, as]);
   const [intentDestination, setIntentDestination] = useState<string | null>(null);
   const anchorRef = useRef<HTMLAnchorElement | null>(null);
@@ -191,6 +198,22 @@ export function Link({
         focused.current = true;
         scheduleIntent(event.currentTarget);
       }}
+      onNavigate={(event) => {
+        let prevented = false;
+        onNavigate?.({
+          preventDefault: () => {
+            prevented = true;
+            event.preventDefault();
+          },
+        });
+        const anchor = anchorRef.current;
+        if (prevented || !anchor) return;
+        const destination = new URL(anchor.href);
+        const url = `${destination.pathname}${destination.search}${destination.hash}`;
+        const navigate = () =>
+          replace ? router.replace(url, { scroll }) : router.push(url, { scroll });
+        if (leavePage(destination, navigate)) event.preventDefault();
+      }}
       onPointerCancel={(event) => {
         onPointerCancel?.(event);
         hovered.current = false;
@@ -232,6 +255,8 @@ export function Link({
           assignRef(ref, null);
         };
       }}
+      replace={replace}
+      scroll={scroll}
     />
   );
 }

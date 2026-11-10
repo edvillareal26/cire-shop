@@ -1,11 +1,12 @@
 import { SubscribeForm } from "@/components/join/subscribe-form";
 
-// Sits last on the home page, directly above the footer.
+// Sits last on the home page at its natural height, so it shares the final full-page screen with the footer.
 export function CireInsider() {
   return (
     <section
       aria-labelledby="insider-heading"
       className="bg-[#f2ebdd] px-6 py-14 text-[#3b2821] sm:pt-13 sm:pb-15"
+      data-full-page-section
     >
       <div className="mx-auto grid max-w-3xl justify-items-center text-center">
         <p className="font-serif text-xl tracking-[0.3em] text-[#6b5041] uppercase">Cire Insider</p>

@@ -78,7 +78,10 @@ const LINK_CLASS =
 
 export function Footer() {
   return (
-    <footer className="border-t border-cream/20 bg-olive text-cream [--foreground:var(--cream)] [--muted-foreground:var(--cream)]">
+    <footer
+      className="border-t border-cream/20 bg-olive text-cream [--foreground:var(--cream)] [--muted-foreground:var(--cream)]"
+      data-full-page-section
+    >
       <Container className="pt-8 sm:px-10 lg:px-[6%]">
         <div className="grid grid-cols-2 gap-x-8 gap-y-12 lg:grid-cols-5">
           <FooterColumn links={EXPLORE} title="Explore" />
