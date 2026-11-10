@@ -12,6 +12,12 @@ import type { BundleCard } from "@/lib/product/types";
 /** Shopify collection holding the sets shown here; the footer's "The Cire Set" links to it too. */
 export const CIRE_SET_COLLECTION = "the-cire-retention-collection";
 
+// Keyed by Shopify product handle; a set without an entry lists its Shopify Bundles components.
+const SET_CONTENTS: Record<string, string[]> = {
+  "cire-retention-set": ["Lash Adhesive", "Lash Super Bonder", "Lash Primer"],
+  "the-retention-duo": ["Lash Adhesive", "Lash Super Bonder"],
+};
+
 export function TheCireSet() {
   return (
     <Suspense fallback={null}>
@@ -69,6 +75,7 @@ function BundleCardView({ bundle }: { bundle: BundleCard }) {
   const saving = bundle.compareAtPrice
     ? Number(bundle.compareAtPrice.amount) - Number(bundle.price.amount)
     : 0;
+  const contents = SET_CONTENTS[bundle.handle] ?? bundle.components;
 
   return (
     <article className="grid gap-3">
@@ -100,8 +107,8 @@ function BundleCardView({ bundle }: { bundle: BundleCard }) {
             {formatPrice(bundle.price)}
           </p>
         </div>
-        {bundle.components.length > 0 ? (
-          <p className="text-sm tracking-[0.08em] text-cream/85">{bundle.components.join(" + ")}</p>
+        {contents.length > 0 ? (
+          <p className="text-sm tracking-[0.08em] text-cream/85">{contents.join(" + ")}</p>
         ) : null}
       </div>
       <AddToCartButton available={bundle.availableForSale} variantId={bundle.variantId} />
