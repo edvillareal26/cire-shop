@@ -303,7 +303,7 @@ const GET_COLLECTION_BUNDLES_QUERY = gql(
   `#graphql
   query getCollectionBundles($handle: String!, $first: Int!, $country: CountryCode, $language: LanguageCode) @inContext(country: $country, language: $language) {
     collection(handle: $handle) {
-      products(first: $first) {
+      products(first: $first, sortKey: PRICE) {
         nodes {
           id
           handle

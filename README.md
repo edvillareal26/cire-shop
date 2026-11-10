@@ -15,13 +15,13 @@ pnpm dev
 
 ## Shopify content the storefront links to
 
-| Link                               | Create in Shopify admin                                                                                                                                                       |
-| ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| New Arrivals, Best Sellers, Sale   | Collections `new-arrivals` (sort newest), `best-sellers` (sort best selling), `sale`                                                                                          |
-| The Cire Set                       | Collection `the-cire-set` with the set products (e.g. from the Shopify Bundles app). It feeds the home section and the footer link; a compare-at price shows the "Save" badge |
-| Gift Cards                         | Product `gift-card`                                                                                                                                                           |
-| FAQs, Shipping & Returns           | Pages `faqs`, `shipping-returns`; a page `about` replaces the default About copy                                                                                              |
-| Shipping, Refund, Terms of Service | Settings → Policies                                                                                                                                                           |
+| Link                               | Create in Shopify admin                                                                                                                                                                                             |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| New Arrivals, Best Sellers, Sale   | Collections `new-arrivals` (sort newest), `best-sellers` (sort best selling), `sale`                                                                                                                                |
+| The Cire Set                       | Collection `the-cire-retention-collection` with the set products (e.g. from the Shopify Bundles app). It feeds the home section (lowest price first) and the footer link; a compare-at price shows the "Save" badge |
+| Gift Cards                         | Product `gift-card`                                                                                                                                                                                                 |
+| FAQs, Shipping & Returns           | Pages `faqs`, `shipping-returns`; a page `about` replaces the default About copy                                                                                                                                    |
+| Shipping, Refund, Terms of Service | Settings → Policies                                                                                                                                                                                                 |
 
 Contact email and social links are `CONTACT_EMAIL` and `SOCIAL_LINKS` in `components/footer/index.tsx`.
 

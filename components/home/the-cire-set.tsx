@@ -10,7 +10,7 @@ import { getCollectionBundles } from "@/lib/product/server";
 import type { BundleCard } from "@/lib/product/types";
 
 /** Shopify collection holding the sets shown here; the footer's "The Cire Set" links to it too. */
-export const CIRE_SET_COLLECTION = "the-cire-set";
+export const CIRE_SET_COLLECTION = "the-cire-retention-collection";
 
 export function TheCireSet() {
   return (
