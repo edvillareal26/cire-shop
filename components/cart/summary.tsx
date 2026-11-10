@@ -44,7 +44,7 @@ export function CartSummary({ cart }: CartSummaryProps) {
             )}
           </SummaryRow>
         ) : null}
-        {/* Shopify works out shipping (free on U.S. orders over $150) at checkout. */}
+        {/* Shopify works out shipping (free on U.S. orders over $125) at checkout. */}
         <SummaryRow label="Shipping:">Calculated at checkout</SummaryRow>
         <SummaryRow emphasized label="Total:">
           {money(formatPrice(totalAmount))}
