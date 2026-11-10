@@ -1,6 +1,6 @@
 import { BotIdClient } from "botid/client";
 import type { Metadata, Viewport } from "next";
-import { Cormorant_Garamond, Montserrat } from "next/font/google";
+import { Cormorant_Garamond } from "next/font/google";
 
 import "./globals.css";
 import { Suspense } from "react";
@@ -32,11 +32,6 @@ const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
 });
 
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  variable: "--font-montserrat",
-});
-
 export default function RootLayout({ children }: LayoutProps<"/">) {
   // Un-awaited: the promise streams to the client provider; never block the shell on it.
   const cartData = seedCartData();
@@ -46,9 +41,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         {shopConfig.botid.isEnabled && <BotIdClient protect={botIdProtectedRoutes} />}
         <CartStandardActionsScript />
       </head>
-      <body
-        className={`${cormorant.variable} ${montserrat.variable} flex min-h-dvh flex-col font-sans antialiased`}
-      >
+      <body className={`${cormorant.variable} flex min-h-dvh flex-col font-sans antialiased`}>
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-100 focus:rounded-md focus:bg-background focus:px-5 focus:py-2 focus:text-sm focus:font-medium focus:shadow-lg focus:ring-2 focus:ring-foreground focus:outline-none"

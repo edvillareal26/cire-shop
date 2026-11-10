@@ -11,8 +11,8 @@
   --color-cream: var(--cream);
   --color-olive: var(--olive);
   --color-olive-deep: var(--olive-deep);
-  --font-mono: var(--font-montserrat);
-  --font-sans: var(--font-montserrat);
+  --font-mono: var(--font-cormorant);
+  --font-sans: var(--font-cormorant);
   --font-serif: var(--font-cormorant);
   --text-xxs: 0.625rem;
 
