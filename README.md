@@ -11,7 +11,7 @@ pnpm dev
 ```
 
 - `NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN`, `NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN`, `NEXT_PUBLIC_SHOPIFY_SHOP_ID`: required.
-- `SHOPIFY_ADMIN_ACCESS_TOKEN`: opens The Cire List sign-ups at `/join` and in the home page's Cire Insider section (Admin API app with `read_customers` and `write_customers`).
+- `SHOPIFY_ADMIN_CLIENT_ID` and `SHOPIFY_ADMIN_CLIENT_SECRET`: open The Cire List sign-ups at `/join` and in the home page's Cire Insider section. They come from a Dev Dashboard app with `read_customers` and `write_customers`, custom distribution, installed on the store in the same organization; the server trades them for 24-hour Admin API tokens. A store that already has a legacy custom app can set its `SHOPIFY_ADMIN_ACCESS_TOKEN` instead.
 
 ## Shopify content the storefront links to
 
