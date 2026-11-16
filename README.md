@@ -30,11 +30,14 @@ The product page breadcrumb shows the product's first collection (other than the
 ## Before launch
 
 - `cirelashcollection.com` and `www` point at this site on Vercel. `checkout.cirelashcollection.com` points at Shopify and is the store's primary domain, so Shopify builds checkout links on it. The cart sends shoppers to whatever link Shopify returns, so nothing in the code names the checkout domain. Never make `www` or the bare domain primary in Shopify, or checkout links will open this site and 404.
-- The Online Store password is off, so the Shopify theme is public at `checkout.cirelashcollection.com`, and links from checkout and Shopify emails back to the store open it. Redirect the theme to this site: in Shopify → Online Store → Themes → Edit code, put this first inside `<head>` in `layout/theme.liquid`. This site uses the same paths as the theme (`/products/…`, `/collections/…`, `/pages/…`), so shoppers land on the same page. Checkout, cart links and customer accounts don't use this layout, so they keep working, and the theme editor still opens.
+- The Online Store password is off, so the Shopify theme is public at `checkout.cirelashcollection.com`, and links from checkout, customer accounts and Shopify emails back to the store open it. Redirect the theme to this site: in Shopify → Online Store → Themes → Edit code, put this first inside `<head>` in `layout/theme.liquid`. This site uses the same paths as the theme (`/products/…`, `/collections/…`, `/pages/…`), so shoppers land on the same page. The theme's front page goes to `/shop`: Shopify's "Shop" and "Shop now" links in customer accounts and checkout point at it, and Shopify has no setting to change them. Checkout, cart links and customer accounts don't use this layout, so they keep working, and the theme editor still opens.
 
   ```liquid
   {% unless request.design_mode %}
-    <script>location.replace("https://www.cirelashcollection.com" + location.pathname + location.search);</script>
+    <script>
+      var path = location.pathname === "/" ? "/shop" : location.pathname;
+      location.replace("https://www.cirelashcollection.com" + path + location.search);
+    </script>
   {% endunless %}
   ```
 
