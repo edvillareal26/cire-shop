@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "cn";
+import { ChevronDownIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { type ReactNode, useEffect, useId, useRef, useState } from "react";
 
@@ -67,6 +68,7 @@ export function StaticNavLink({ item }: { item: NavLinkItem }) {
 }
 
 const OTHER_PREFIXES = ["/pages/", "/policies/"];
+const OTHER_TRIGGER_CLASS = cn(LINK_CLASS, "inline-flex items-center gap-1.5");
 
 export function OtherMenu({ items }: { items: MenuItem[] }) {
   const pathname = usePathname();
@@ -98,12 +100,13 @@ export function OtherMenu({ items }: { items: MenuItem[] }) {
       <button
         aria-controls={menuId}
         aria-expanded={open}
-        className={cn(LINK_CLASS, "cursor-pointer", open && "text-cream")}
+        className={cn(OTHER_TRIGGER_CLASS, "group cursor-pointer", open && "text-cream")}
         data-active={active}
         onClick={() => setOpen((value) => !value)}
         type="button"
       >
         Other
+        <OtherChevron />
       </button>
       {open && (
         <ul
@@ -129,5 +132,20 @@ export function OtherMenu({ items }: { items: MenuItem[] }) {
 }
 
 export function StaticOtherMenu() {
-  return <span className={LINK_CLASS}>Other</span>;
+  return (
+    <span className={OTHER_TRIGGER_CLASS}>
+      Other
+      <OtherChevron />
+    </span>
+  );
+}
+
+function OtherChevron() {
+  return (
+    <ChevronDownIcon
+      aria-hidden="true"
+      className="size-3.5 shrink-0 transition-transform duration-200 group-aria-expanded:rotate-180"
+      strokeWidth={1.5}
+    />
+  );
 }
