@@ -19,6 +19,7 @@ import { cartHandlers, createCustomerCartHandlers } from "@/lib/cart/request";
 import { getRefinedCollectionPath, isRefinedCollectionPath } from "@/lib/collections";
 import { shopConfig } from "@/lib/config";
 import { getMarkdownRewritePath } from "@/lib/markdown/representation";
+import { getPrelaunchPreviewRedirect, getPrelaunchRewritePath } from "@/lib/prelaunch/request";
 import { predictiveSearchHandlers } from "@/lib/search/request";
 import { SHOPIFY_ROUTE_TEMPLATES } from "@/lib/shopify/routing";
 import { createRequestStorefrontClient } from "@/lib/shopify/storefront/server";
@@ -53,11 +54,15 @@ export async function proxy(request: NextRequest): Promise<Response> {
       })
     : handleShopifyRoutes({ ...routeOptions, handlers: [cartHandlers, predictiveSearchHandlers] });
   if (shopifyRoute) return shopifyRoute;
+  const previewRedirect = getPrelaunchPreviewRedirect(request);
+  if (previewRedirect) return previewRedirect;
   if (isRefinedCollectionPath(pathname)) return new Response("Not Found", { status: 404 });
 
   const headers = requestContext.getForwardedRequestHeaders();
   const rewritePath =
-    getMarkdownRewritePath(request) ?? getRefinedCollectionPath(pathname, request.nextUrl.search);
+    getPrelaunchRewritePath(request) ??
+    getMarkdownRewritePath(request) ??
+    getRefinedCollectionPath(pathname, request.nextUrl.search);
   const response = rewritePath
     ? NextResponse.rewrite(new URL(`${rewritePath}${request.nextUrl.search}`, request.url), {
         request: { headers },
