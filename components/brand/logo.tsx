@@ -1,7 +1,7 @@
 import { cn } from "cn";
 import Image from "next/image";
 
-import logo from "@/public/images/cire-logo.png";
+import logo from "@/public/images/cire-logo.webp";
 
 interface LogoProps {
   className?: string;
