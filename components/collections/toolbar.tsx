@@ -1,8 +1,7 @@
 import { ChevronDownIcon, SlidersHorizontalIcon } from "lucide-react";
 import type { ReactNode } from "react";
 
-import { ProductsGridSkeleton } from "@/components/product/products-grid";
-import { PRODUCTS_PER_PAGE } from "@/lib/collections";
+import { Loader } from "@/components/ui/loader";
 import type { SortValue } from "@/lib/collections/types";
 
 import { CollectionActiveFilterCountBadge } from "./collection-browse-provider";
@@ -66,10 +65,7 @@ export function BrowseFallback({ resultCount }: BrowseFallbackProps) {
           </div>
         }
       />
-      <ProductsGridSkeleton
-        count={PRODUCTS_PER_PAGE}
-        className="sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
-      />
+      <Loader className="min-h-[50svh]" label="Loading products" />
     </>
   );
 }

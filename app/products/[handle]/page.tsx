@@ -5,7 +5,7 @@ import { Suspense } from "react";
 import { ProductViewedTracker } from "@/components/analytics/trackers";
 import {
   ProductDetailSection,
-  ProductDetailSkeleton,
+  ProductDetailLoader,
 } from "@/components/product-detail/product-detail-section";
 import { RecentlyViewedRecorder } from "@/components/product-detail/recently-viewed";
 import { RelatedProductsSection } from "@/components/product/related-products-section";
@@ -80,7 +80,7 @@ export default function ProductPage({ params, searchParams }: PageProps<"/produc
     <Page className="pt-10 pb-20 lg:pt-14">
       <Container className="max-w-320">
         <Sections className="gap-20 lg:gap-28">
-          <Suspense fallback={<ProductDetailSkeleton />}>
+          <Suspense fallback={<ProductDetailLoader />}>
             <ProductPageContent params={params} searchParams={searchParams} />
           </Suspense>
         </Sections>

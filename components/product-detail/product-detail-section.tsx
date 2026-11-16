@@ -27,7 +27,7 @@ import { Breadcrumbs } from "@/components/ui/breadcrumbs";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link } from "@/components/ui/link";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Loader } from "@/components/ui/loader";
 import { Textarea } from "@/components/ui/textarea";
 import { ProductWishlistToggle } from "@/components/wishlist/product-wishlist";
 import { WishlistButton } from "@/components/wishlist/wishlist-button";
@@ -507,42 +507,7 @@ function BuyButtonsFallback({
   );
 }
 
-export function ProductDetailSkeleton() {
-  return (
-    <div aria-busy="true" className="grid gap-8 lg:gap-12">
-      <Skeleton className="h-5 w-64" />
-      <div className="grid gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:items-start lg:gap-16 xl:gap-24">
-        {/* The image slot stays static; a pulsing skeleton in the LCP slot flashes harder than an empty canvas. */}
-        <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-x-3 sm:gap-x-3.5">
-          <div className="aspect-4/5 w-full bg-muted" />
-          <div className="size-10 rounded-md bg-white/80 sm:size-13" />
-        </div>
-        <div className="grid gap-8">
-          <div className="grid gap-3">
-            <Skeleton className="h-9 w-full" />
-            <Skeleton className="h-9 w-2/3" />
-          </div>
-          <Skeleton className="h-9 w-28" />
-          <div className="grid gap-2">
-            <Skeleton className="h-5 w-28" />
-            <Skeleton className="h-4 w-full" />
-            <Skeleton className="h-4 w-full" />
-            <Skeleton className="h-4 w-4/5" />
-          </div>
-          <div className="grid gap-3">
-            <Skeleton className="h-6 w-24" />
-            <div className="flex flex-wrap gap-2">
-              {["w-13", "w-15", "w-13"].map((width, index) => (
-                <Skeleton key={index} className={cn("h-11 rounded-md", width)} />
-              ))}
-            </div>
-          </div>
-          <div className="flex flex-wrap gap-3.5">
-            <Skeleton className="h-12.5 min-w-36 flex-1" />
-            <Skeleton className="h-12.5 min-w-36 flex-1" />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+// Holds most of a viewport so the footer stays below the fold until the product streams in.
+export function ProductDetailLoader() {
+  return <Loader className="min-h-[70svh]" label="Loading product" />;
 }

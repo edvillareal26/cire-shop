@@ -65,7 +65,7 @@ interface CollectionBrowseBoundaryProps {
   children: ReactNode;
 }
 
-// Wraps every collection page's results; the first filter from the default view shows this grid skeleton while the refine route loads, and later changes keep the current grid.
+// Wraps every collection page's results; the first filter from the default view shows this loader while the refine route loads, and later changes keep the current grid.
 export function CollectionBrowseBoundary({ children }: CollectionBrowseBoundaryProps) {
   return <Suspense fallback={<BrowseResultsFallback />}>{children}</Suspense>;
 }
