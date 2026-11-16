@@ -26,7 +26,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default function HomePage() {
   return (
     // Home sections set their own colors; the cream theme keeps focus rings visible on the light ones.
-    <Page className="theme-cream bg-background pt-0 text-foreground">
+    <Page className="theme-cream bg-background py-0 text-foreground lg:py-0">
       <Hero />
       <ShopTheEssentials />
       {/* The Tools photo is banner-sized, too small to fill a screen alone, so it shares one with The Cire Standard. */}

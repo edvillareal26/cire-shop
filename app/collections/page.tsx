@@ -35,7 +35,7 @@ export default async function CollectionsPage() {
   const collections = await getCollectionsListing({});
   const viewCollectionLabel = "View this collection";
   return (
-    <Page className="pt-2.5 md:pt-10">
+    <Page>
       <Container>
         <Sections className="gap-5">
           <h1 className="text-3xl sm:text-4xl md:text-5xl">Collections</h1>

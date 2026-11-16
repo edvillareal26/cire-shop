@@ -92,7 +92,7 @@ async function AboutContent() {
           </ul>
         </Container>
       </section>
-      <Container className="grid justify-items-center py-16 sm:py-20">
+      <Container className="grid justify-items-center pt-16 sm:pt-20">
         <Link
           className="inline-flex border border-foreground/70 px-8 py-3.5 text-[13px] uppercase tracking-[0.24em] transition-colors hover:bg-foreground hover:text-background"
           href="/shop"

@@ -103,7 +103,7 @@ interface CartPageLayoutProps extends ComponentProps<"div"> {
 
 function CartPageLayout({ children, summary, ...props }: CartPageLayoutProps) {
   return (
-    <Page className="pb-20 lg:pt-14 lg:pb-28" {...props}>
+    <Page {...props}>
       <Container className="grid max-w-320 gap-10 lg:gap-14">
         <Breadcrumbs current="Cart" links={[{ href: "/", label: "Home" }]} />
         <div className="grid gap-10">

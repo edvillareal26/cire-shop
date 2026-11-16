@@ -64,7 +64,7 @@ export default function SearchPage({ searchParams }: PageProps<"/search">) {
     fetchSearchResults({ query: getParam(resolved, "q"), statePromise }),
   );
   return (
-    <Page className="pt-2.5 md:pt-10">
+    <Page>
       <Container>
         <Sections className="gap-5">
           <Suspense fallback={null}>

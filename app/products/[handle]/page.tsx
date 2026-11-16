@@ -77,7 +77,7 @@ export async function generateMetadata({
 
 export default function ProductPage({ params, searchParams }: PageProps<"/products/[handle]">) {
   return (
-    <Page className="pt-10 pb-20 lg:pt-14">
+    <Page>
       <Container className="max-w-320">
         <Sections className="gap-20 lg:gap-28">
           <Suspense fallback={<ProductDetailLoader />}>

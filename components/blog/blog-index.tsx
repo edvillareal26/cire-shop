@@ -11,7 +11,7 @@ export interface BlogIndexProps {
 
 export function BlogIndex({ blog }: BlogIndexProps) {
   return (
-    <Page className="pt-2.5 md:pt-10">
+    <Page>
       <Container>
         <Sections className="gap-5">
           <h1 className="text-3xl sm:text-4xl md:text-5xl">{blog.title}</h1>
@@ -32,7 +32,7 @@ export function BlogIndex({ blog }: BlogIndexProps) {
 
 export function BlogIndexSkeleton() {
   return (
-    <Page aria-busy="true" className="pt-2.5 md:pt-10">
+    <Page aria-busy="true">
       <Container>
         <Sections className="gap-5">
           <Skeleton className="h-9 w-1/2 sm:h-10 md:h-12" />

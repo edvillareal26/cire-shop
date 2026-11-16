@@ -11,8 +11,8 @@ interface RichTextPageProps {
 export function RichTextPage({ body, title }: RichTextPageProps) {
   return (
     <Page>
-      <Container className="max-w-2xl">
-        <Prose>
+      <Container className="max-w-4xl">
+        <Prose className="max-w-none">
           <h1>{title}</h1>
           <div
             // oxlint-disable-next-line react/no-danger -- Page and policy bodies pass through sanitizeShopifyHtml when fetched.
@@ -27,7 +27,7 @@ export function RichTextPage({ body, title }: RichTextPageProps) {
 export function RichTextPageSkeleton() {
   return (
     <Page aria-busy="true">
-      <Container className="max-w-2xl">
+      <Container className="max-w-4xl">
         <div className="grid gap-5">
           <Skeleton className="h-10 w-3/4" />
           <div className="grid gap-2.5">

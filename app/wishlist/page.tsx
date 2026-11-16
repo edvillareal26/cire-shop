@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 export default function WishlistPage() {
   return (
     <Page>
-      <Container className="grid gap-10 pb-16">
+      <Container className="grid gap-10">
         <div className="grid gap-3">
           <p className="text-[11px] uppercase tracking-[0.28em] text-muted-foreground">
             Saved for later

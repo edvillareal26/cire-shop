@@ -38,7 +38,7 @@ export function CollectionLayout({
       {collection.id ? (
         <CollectionViewedTracker collection={{ handle: collection.handle, id: collection.id }} />
       ) : null}
-      <Page className="pt-2.5 md:pt-10">
+      <Page>
         <Container>
           <Sections className="gap-5">
             <CollectionHeader collection={collection} homeLabel="Home" />
@@ -86,7 +86,7 @@ async function SearchParamsRead({ searchParams }: { searchParams: Promise<unknow
 
 export function CollectionDetailSkeleton() {
   return (
-    <Page aria-busy="true" className="pt-2.5 md:pt-10">
+    <Page aria-busy="true">
       <Container>
         <Sections className="gap-5">
           <div className="grid gap-2.5">
