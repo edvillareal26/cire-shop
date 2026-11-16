@@ -29,8 +29,16 @@ The product page breadcrumb shows the product's first collection (other than the
 
 ## Before launch
 
-- Remove the Online Store password: checkout redirects to it while it is on.
-- Shopify builds checkout links on the primary domain (`www.cirelashcollection.com`). Make a subdomain such as `checkout.cirelashcollection.com` primary in Shopify before pointing `www` at this site.
+- `cirelashcollection.com` and `www` point at this site on Vercel. `checkout.cirelashcollection.com` points at Shopify and is the store's primary domain, so Shopify builds checkout links on it. The cart sends shoppers to whatever link Shopify returns, so nothing in the code names the checkout domain. Never make `www` or the bare domain primary in Shopify, or checkout links will open this site and 404.
+- The Online Store password is off, so the Shopify theme is public at `checkout.cirelashcollection.com`, and links from checkout and Shopify emails back to the store open it. Redirect the theme to this site: in Shopify → Online Store → Themes → Edit code, put this first inside `<head>` in `layout/theme.liquid`. This site uses the same paths as the theme (`/products/…`, `/collections/…`, `/pages/…`), so shoppers land on the same page. Checkout, cart links and customer accounts don't use this layout, so they keep working, and the theme editor still opens.
+
+  ```liquid
+  {% unless request.design_mode %}
+    <script>location.replace("https://www.cirelashcollection.com" + location.pathname + location.search);</script>
+  {% endunless %}
+  ```
+
+- `NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN` stays a `.myshopify.com` domain. The old `ytbxyv-hu.myshopify.com` redirects to `cirelashcollection.myshopify.com` in a browser, but the APIs still answer on it.
 - `public/images/cire-list-bg.jpg`, `cire-tools.jpg` and `cire-standard.jpg` are placeholders cropped from the design mockups; replace them with the original photos, keeping the same names.
 
 ## Cire customizations
