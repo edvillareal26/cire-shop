@@ -26,6 +26,8 @@ const nextConfig: NextConfig = {
   // The `powered-by` header from lib/auth/request.ts already names Next.js.
   poweredByHeader: false,
   reactCompiler: true,
+  // The shop page replaces the theme's /collections/all; links from Shopify emails and the old theme keep their filters.
+  redirects: async () => [{ destination: "/shop", permanent: true, source: "/collections/all" }],
   turbopack: {
     rules: {
       "*.css": {

@@ -1,8 +1,5 @@
-import {
-  ALL_PRODUCTS_HANDLE,
-  getAllProductsCollection,
-  getCollection,
-} from "@/lib/collections/server";
+import { ALL_PRODUCTS_HANDLE, ALL_PRODUCTS_PATH } from "@/lib/collections";
+import { getAllProductsCollection, getCollection } from "@/lib/collections/server";
 import { collectionToMarkdown } from "@/lib/markdown/collection";
 import { notFoundMarkdown } from "@/lib/markdown/not-found";
 import { markdownHeaders } from "@/lib/markdown/representation";
@@ -14,7 +11,7 @@ export function generateStaticParams(): Array<{ handle: string }> {
 
 export async function GET(_request: Request, { params }: { params: Promise<{ handle: string }> }) {
   const { handle } = await params;
-  const pathname = `/collections/${handle}`;
+  const pathname = handle === ALL_PRODUCTS_HANDLE ? ALL_PRODUCTS_PATH : `/collections/${handle}`;
   try {
     const collection =
       handle === ALL_PRODUCTS_HANDLE

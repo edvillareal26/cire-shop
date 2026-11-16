@@ -43,7 +43,7 @@ async function WishlistProducts() {
         </p>
         <Link
           className="mt-4 inline-flex bg-primary px-8 py-3.5 text-xs uppercase tracking-[0.24em] text-primary-foreground hover:bg-olive-deep"
-          href="/collections/all"
+          href="/shop"
         >
           Shop the collection
         </Link>

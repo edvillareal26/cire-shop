@@ -27,7 +27,7 @@ export function CartPageContent() {
         <div className="grid justify-items-center gap-6 rounded-md border border-foreground/40 px-6 py-16 text-center">
           <CartWarnings />
           <h2 className="text-2xl sm:text-3xl">Your cart is empty</h2>
-          <Link className={BUTTON_CLASS} href="/collections/all">
+          <Link className={BUTTON_CLASS} href="/shop">
             Continue Shopping
           </Link>
         </div>
@@ -110,7 +110,7 @@ function CartPageLayout({ children, summary, ...props }: CartPageLayoutProps) {
           <h1 className="sr-only">Cart</h1>
           <Link
             className="flex w-fit items-center gap-2.5 text-lg transition-opacity hover:opacity-75"
-            href="/collections/all"
+            href="/shop"
           >
             <ArrowLeft aria-hidden className="size-5" />
             Return To Shop

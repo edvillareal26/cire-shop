@@ -41,8 +41,8 @@ export function CollectionLayout({
       <Page className="pt-2.5 md:pt-10">
         <Container>
           <Sections className="gap-5">
-            <CollectionHeader collection={collection} handle={handle} homeLabel="Home" />
-            <CollectionBrowseFrame handle={handle} path={`/collections/${handle}`}>
+            <CollectionHeader collection={collection} homeLabel="Home" />
+            <CollectionBrowseFrame handle={handle} path={collection.path}>
               <BrowseToolbar
                 filters={
                   <PublishedCollectionFilters
@@ -102,27 +102,25 @@ export function CollectionDetailSkeleton() {
 
 function CollectionHeader({
   collection,
-  handle,
   homeLabel,
 }: {
   collection: Collection;
-  handle: string;
   homeLabel: string;
 }) {
-  const { title, description, updatedAt } = collection;
+  const { description, path, title, updatedAt } = collection;
 
   const breadcrumbItems = [
     { name: homeLabel, path: "/" },
-    { name: title, path: `/collections/${handle}` },
+    { name: title, path },
   ];
 
   return (
     <>
       <BreadcrumbSchema items={breadcrumbItems} />
-      <CollectionSchema collection={{ handle, title, description, updatedAt }} />
+      <CollectionSchema collection={{ description, path, title, updatedAt }} />
       <div>
         <h1 className="text-3xl sm:text-4xl md:text-5xl">
-          <Link href={`/collections/${handle}`}>{title}</Link>
+          <Link href={path}>{title}</Link>
         </h1>
         {description && <p className="mt-1 leading-6 text-muted-foreground">{description}</p>}
       </div>

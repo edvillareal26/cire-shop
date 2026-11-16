@@ -11,7 +11,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return getAllProductsMetadata();
 }
 
-export default function AllProductsPage({ searchParams }: PageProps<"/collections/all">) {
+export default function AllProductsPage({ searchParams }: PageProps<"/shop">) {
   return (
     <CollectionBrowseBoundary>
       <CollectionResults results={getAllProductsResults()} />

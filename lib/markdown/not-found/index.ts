@@ -9,7 +9,7 @@ The requested ${kind.toLowerCase()} could not be found.
 
 ## Continue browsing
 
-- [Browse all products](${url}/collections/all)
+- [Browse all products](${url}/shop)
 - [UCP profile](${url}/.well-known/ucp): Live catalog search, availability, cart, and checkout
 - [Storefront guide](${url}/llms.txt)
 - [Sitemap](${url}/sitemap.xml)

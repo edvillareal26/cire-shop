@@ -1,9 +1,9 @@
 import { CollectionLayout } from "@/components/collections/collection-page";
 import { getProductTypeFilter } from "@/lib/categories";
-import { SEARCH_SORT_EXCLUDE } from "@/lib/collections";
-import { ALL_PRODUCTS_HANDLE, getAllProductsCollection } from "@/lib/collections/server";
+import { ALL_PRODUCTS_HANDLE, SEARCH_SORT_EXCLUDE } from "@/lib/collections";
+import { getAllProductsCollection } from "@/lib/collections/server";
 
-export default async function AllProductsLayout({ children }: LayoutProps<"/collections/all">) {
+export default async function AllProductsLayout({ children }: LayoutProps<"/shop">) {
   return (
     <CollectionLayout
       collection={await getAllProductsCollection()}

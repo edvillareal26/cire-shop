@@ -57,7 +57,7 @@ async function ProductsGridContent({
   limit: number;
   outOfStockText: string;
 }) {
-  // Use the search index (not the products connection) so these match the first items on /collections/all.
+  // Use the search index (not the products connection) so these match the first items on /shop.
   const { products } = await getSearchIndexProducts({
     limit,
   });

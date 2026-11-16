@@ -20,7 +20,7 @@ function SectionShell({ children }: { children: ReactNode }) {
           </h2>
           <Link
             className="shrink-0 text-lg underline underline-offset-4 transition-colors hover:text-muted-foreground"
-            href="/collections/all"
+            href="/shop"
           >
             View All
           </Link>

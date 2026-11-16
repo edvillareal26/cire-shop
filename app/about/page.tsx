@@ -95,7 +95,7 @@ async function AboutContent() {
       <Container className="grid justify-items-center py-16 sm:py-20">
         <Link
           className="inline-flex border border-foreground/70 px-8 py-3.5 text-[13px] uppercase tracking-[0.24em] transition-colors hover:bg-foreground hover:text-background"
-          href="/collections/all"
+          href="/shop"
         >
           Shop the collection
         </Link>

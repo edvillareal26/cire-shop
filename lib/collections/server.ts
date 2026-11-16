@@ -1,7 +1,13 @@
 import type { Metadata } from "next";
 import { cacheLife, cacheTag } from "next/cache";
 
-import { describeCollection, PRODUCTS_PER_PAGE, resolveBrowseParams } from "@/lib/collections";
+import {
+  ALL_PRODUCTS_HANDLE,
+  ALL_PRODUCTS_PATH,
+  describeCollection,
+  PRODUCTS_PER_PAGE,
+  resolveBrowseParams,
+} from "@/lib/collections";
 import type {
   BrowseResults,
   BrowseState,
@@ -23,9 +29,6 @@ import {
   fetchSearchFacets,
   fetchSearchIndexProducts,
 } from "@/lib/shopify/operations/products/server";
-
-// /collections/all is a local virtual collection with no Storefront API equivalent.
-export const ALL_PRODUCTS_HANDLE = "all";
 
 // Delete payloads carry only the ID and renames only the new handle, so cached reads carry both tags.
 function tagCollections(collections: Array<{ handle: string; id?: string }>): void {
@@ -170,7 +173,7 @@ export async function getAllProductsCollection(): Promise<Collection> {
     title,
     description,
     image: null,
-    path: `/collections/${ALL_PRODUCTS_HANDLE}`,
+    path: ALL_PRODUCTS_PATH,
     seo: {
       description: `Browse every product at ${shopConfig.site.name}: compare prices and check availability.`,
       title,
@@ -178,8 +181,7 @@ export async function getAllProductsCollection(): Promise<Collection> {
   };
 }
 
-function browseMetadata(handle: string, title: string, description: string): Metadata {
-  const url = `/collections/${handle}`;
+function browseMetadata(url: string, title: string, description: string): Metadata {
   return {
     title,
     description,
@@ -196,13 +198,15 @@ function browseMetadata(handle: string, title: string, description: string): Met
 
 export async function getCollectionMetadata(handle: string): Promise<Metadata> {
   const collection = await getCollection({ handle });
-  if (!collection) return browseMetadata(handle, "Collection", "Browse collection products.");
-  return browseMetadata(collection.handle, collection.seo.title, describeCollection(collection));
+  if (!collection) {
+    return browseMetadata(`/collections/${handle}`, "Collection", "Browse collection products.");
+  }
+  return browseMetadata(collection.path, collection.seo.title, describeCollection(collection));
 }
 
 export async function getAllProductsMetadata(): Promise<Metadata> {
   return browseMetadata(
-    ALL_PRODUCTS_HANDLE,
+    ALL_PRODUCTS_PATH,
     "Products",
     describeCollection(await getAllProductsCollection()),
   );

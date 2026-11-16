@@ -70,7 +70,7 @@ function Hero() {
         </p>
         <Link
           className="mt-10 inline-flex w-fit items-center border border-cream/85 px-7 py-3.5 text-[13px] uppercase tracking-[0.24em] transition-colors hover:bg-cream hover:text-olive-deep sm:ml-13"
-          href="/collections/all"
+          href="/shop"
         >
           Shop now
         </Link>

@@ -94,7 +94,7 @@ function getBreadcrumbs(product: ProductDetails) {
   const category = findCategory(product.productType);
   return [
     { href: "/", label: "Home" },
-    { href: "/collections/all", label: "Shop" },
+    { href: "/shop", label: "Shop" },
     ...(category
       ? [{ href: getCategoryHref(category), label: category.title }]
       : product.collection

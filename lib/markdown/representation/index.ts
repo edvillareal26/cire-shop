@@ -1,3 +1,4 @@
+import { ALL_PRODUCTS_HANDLE, ALL_PRODUCTS_PATH } from "@/lib/collections";
 import { shopConfig } from "@/lib/config";
 
 import type { AcceptEntry, Representation } from "./types";
@@ -90,6 +91,7 @@ function appendVaryAccept(headers: Headers): void {
 export function getMarkdownPath(pathname: string): string | null {
   if (pathname === "/") return "/md";
   if (pathname === "/search") return "/md/search";
+  if (pathname === ALL_PRODUCTS_PATH) return `/md/collections/${ALL_PRODUCTS_HANDLE}`;
   if (pathname.startsWith("/collections/")) return `/md${pathname}`;
   if (pathname.startsWith("/products/")) return `/md${pathname}`;
   return null;

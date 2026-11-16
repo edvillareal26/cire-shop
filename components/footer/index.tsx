@@ -27,7 +27,7 @@ const SHOPIFY_ACCOUNT_URL = `https://${process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOM
 const ACCOUNT_URL = shopConfig.auth.isEnabled ? "/account" : SHOPIFY_ACCOUNT_URL;
 
 const EXPLORE: FooterLink[] = [
-  { title: "Shop All", url: "/collections/all" },
+  { title: "Shop All", url: "/shop" },
   { title: "New Arrivals", url: "/collections/new-arrivals" },
   { title: "Best Sellers", url: "/collections/best-sellers" },
   { title: "Sale", url: "/collections/sale" },

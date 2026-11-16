@@ -1,5 +1,6 @@
 import { serializeCollectionParams } from "@shopify/hydrogen";
 
+import { ALL_PRODUCTS_PATH } from "@/lib/collections";
 import type { Filter } from "@/lib/filters/types";
 
 export interface Category {
@@ -19,8 +20,6 @@ export const CATEGORIES: readonly Category[] = [
   { productType: "Lash Primer", title: "Primers" },
 ];
 
-const SHOP_PATH = "/collections/all";
-
 /** The shop page with this category's filter selected. */
 export function getCategoryHref(category: Category): string {
   const search = serializeCollectionParams({
@@ -28,7 +27,7 @@ export function getCategoryHref(category: Category): string {
     reverse: false,
     sortKey: undefined,
   });
-  return `${SHOP_PATH}?${search}`;
+  return `${ALL_PRODUCTS_PATH}?${search}`;
 }
 
 export function findCategory(productType: string | null | undefined): Category | undefined {

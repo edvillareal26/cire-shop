@@ -14,7 +14,7 @@ ${escapeMarkdown(description)}
 
 ## Browse
 
-- [All products](${url}/collections/all): Browse the complete catalog.
+- [All products](${url}/shop): Browse the complete catalog.
 - [Search](${url}/search): Search products by keyword.
 - [Collections](${url}/collections): Browse products by collection.
 

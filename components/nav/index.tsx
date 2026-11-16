@@ -25,7 +25,7 @@ import { WishlistIcon, WishlistIconFallback } from "./wishlist";
 
 const LEFT_LINKS: NavLinkItem[] = [
   { href: "/", label: "Home" },
-  { href: "/collections/all", label: "Shop", match: ["/collections", "/products", "/search"] },
+  { href: "/shop", label: "Shop", match: ["/collections", "/products", "/search", "/shop"] },
 ];
 
 const RIGHT_LINKS: NavLinkItem[] = [{ href: "/about", label: "About" }];

@@ -9,9 +9,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return getAllProductsMetadata();
 }
 
-export default function RefinedAllProductsPage({
-  searchParams,
-}: PageProps<"/collections/all/refine">) {
+export default function RefinedAllProductsPage({ searchParams }: PageProps<"/shop/refine">) {
   return (
     <CollectionBrowseBoundary>
       <RefinedAllProductsResults searchParams={searchParams} />
@@ -21,7 +19,7 @@ export default function RefinedAllProductsPage({
 
 async function RefinedAllProductsResults({
   searchParams,
-}: Pick<PageProps<"/collections/all/refine">, "searchParams">) {
+}: Pick<PageProps<"/shop/refine">, "searchParams">) {
   const statePromise = readBrowseState(searchParams);
   return <CollectionResults results={fetchSearchResults({ statePromise })} />;
 }

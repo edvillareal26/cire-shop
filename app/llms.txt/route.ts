@@ -51,7 +51,7 @@ ${[
 
 ## Browse
 
-- [All products](${url}/collections/all): The full product catalog.
+- [All products](${url}/shop): The full product catalog.
 ${collectionLinks.length > 0 ? `\n## Collections\n\n${collectionLinks.join("\n")}\n` : ""}
 ## Discovery
 

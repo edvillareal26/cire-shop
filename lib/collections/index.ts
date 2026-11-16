@@ -10,6 +10,10 @@ import type { BrowseState, Collection, SortValue } from "@/lib/collections/types
 import { shopConfig } from "@/lib/config";
 import { summarizeText } from "@/lib/content";
 
+// The shop page is a local virtual collection with no Storefront API equivalent; it replaces the theme's /collections/all.
+export const ALL_PRODUCTS_HANDLE = "all";
+export const ALL_PRODUCTS_PATH = "/shop";
+
 export const PRODUCTS_PER_PAGE = 40;
 
 export function describeCollection(collection: Collection): string {
@@ -58,13 +62,15 @@ export function resolveBrowseParams(search: string | URLSearchParams): BrowseSta
   };
 }
 
-const COLLECTION_PATH = /^\/collections\/([^/]+)\/?$/;
-const REFINED_COLLECTION_PATH = /^\/collections\/[^/]+\/refine\/?$/;
+const BROWSE_PATH = new RegExp(`^(${ALL_PRODUCTS_PATH}|/collections/[^/]+)/?$`);
+const REFINED_COLLECTION_PATH = new RegExp(
+  `^(?:${ALL_PRODUCTS_PATH}|/collections/[^/]+)/refine/?$`,
+);
 
 // The default view never reads search params so its products stay in the static shell and prefetches; filtered and sorted views render from the request-time `refine` route.
 export function getRefinedCollectionPath(pathname: string, search: string): string | null {
-  const handle = COLLECTION_PATH.exec(pathname)?.[1];
-  return handle && resolveBrowseParams(search).dataSearch ? `/collections/${handle}/refine` : null;
+  const path = BROWSE_PATH.exec(pathname)?.[1];
+  return path && resolveBrowseParams(search).dataSearch ? `${path}/refine` : null;
 }
 
 export function isRefinedCollectionPath(pathname: string): boolean {
