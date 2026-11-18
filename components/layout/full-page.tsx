@@ -21,6 +21,8 @@ const REDUCED_SPEED_MS = 300;
 const SETTLE_MS = 450;
 const SPEED_MS = 900;
 const SWIPE_SHARE = 0.05;
+// Phones and tablets: animated section steps fight momentum scrolling there.
+const TOUCH_FIRST_QUERY = "(pointer: coarse)";
 
 interface Stop {
   element: HTMLElement;
@@ -34,9 +36,21 @@ interface Touch {
   y: number;
 }
 
-/** One wheel gesture, swipe or key press moves one `data-full-page-section`; taller sections scroll through first. */
+/** One wheel gesture, swipe or key press moves one `data-full-page-section`; taller sections scroll through first. Touch-first devices scroll natively. */
 export function FullPage() {
-  useEffect(() => startFullPage(), []);
+  useEffect(() => {
+    const touchFirst = window.matchMedia(TOUCH_FIRST_QUERY);
+    let stop = touchFirst.matches ? undefined : startFullPage();
+    const sync = () => {
+      stop?.();
+      stop = touchFirst.matches ? undefined : startFullPage();
+    };
+    touchFirst.addEventListener("change", sync);
+    return () => {
+      touchFirst.removeEventListener("change", sync);
+      stop?.();
+    };
+  }, []);
   return null;
 }
 
