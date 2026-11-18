@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import { getImageProps } from "next/image";
+import { preload } from "react-dom";
 
 import { CireInsider } from "@/components/home/cire-insider";
 import { ShopTheEssentials } from "@/components/home/shop-the-essentials";
@@ -9,7 +10,8 @@ import { FullPage } from "@/components/layout/full-page";
 import { Page } from "@/components/ui/page";
 import { shopConfig } from "@/lib/config";
 import { buildAlternates, buildOpenGraph } from "@/lib/seo";
-import heroImage from "@/public/images/hero.jpg";
+import heroLandscape from "@/public/images/hero-landscape.jpg";
+import heroPortrait from "@/public/images/hero-portrait.jpg";
 
 export async function generateMetadata(): Promise<Metadata> {
   const title = "Perfect the ritual";
@@ -40,21 +42,36 @@ export default function HomePage() {
   );
 }
 
+const HERO_LANDSCAPE = "(orientation: landscape)";
+const HERO_PORTRAIT = "(orientation: portrait)";
+
+// Portrait screens get a tall version of the hero so the whole product lineup stays in view.
 function Hero() {
+  const common = {
+    alt: "Cire Lash Collection box with Lash Primer, Signature Bond, and Super Bonder on travertine",
+    fill: true,
+    sizes: "100vw",
+    unoptimized: true,
+  } as const;
+  const { props: landscape } = getImageProps({ ...common, src: heroLandscape });
+  const { props: portrait } = getImageProps({
+    ...common,
+    fetchPriority: "high",
+    loading: "eager",
+    src: heroPortrait,
+  });
+  preload(landscape.src, { as: "image", fetchPriority: "high", media: HERO_LANDSCAPE });
+  preload(portrait.src, { as: "image", fetchPriority: "high", media: HERO_PORTRAIT });
+
   return (
     <section
       className="relative isolate -mt-19 flex h-[calc(100svh-2.25rem)] min-h-150 overflow-hidden bg-olive-deep text-cream"
       data-full-page-section
     >
-      <Image
-        alt=""
-        className="-z-10 object-cover"
-        fill
-        placeholder="blur"
-        preload
-        src={heroImage}
-        unoptimized
-      />
+      <picture>
+        <source media={HERO_LANDSCAPE} srcSet={landscape.src} />
+        <img {...portrait} className="-z-10 object-cover" />
+      </picture>
       {/* The hero photo carries its own lettering, so the page heading stays off-screen. */}
       <h1 className="sr-only">Perfect the ritual.</h1>
     </section>
