@@ -59,7 +59,7 @@ export function ProductGallery({ items, title, wishlist }: ProductGalleryProps) 
           role="region"
         >
           {count === 0 ? (
-            <div className="relative aspect-4/5 w-full shrink-0">
+            <div className="relative aspect-square w-full shrink-0">
               <ImagePlaceholder className="size-full" />
             </div>
           ) : (
@@ -67,7 +67,7 @@ export function ProductGallery({ items, title, wishlist }: ProductGalleryProps) 
               <div
                 aria-label={`${idx + 1} of ${count}`}
                 aria-roledescription="slide"
-                className="relative aspect-4/5 w-full shrink-0 snap-start snap-always overflow-hidden"
+                className="relative aspect-square w-full shrink-0 snap-start snap-always overflow-hidden"
                 key={itemKey(item)}
                 role="group"
               >
@@ -75,7 +75,7 @@ export function ProductGallery({ items, title, wishlist }: ProductGalleryProps) 
                   <LightboxTrigger image={item.image}>
                     <Image
                       alt={item.image.altText || `${title} image ${idx + 1}`}
-                      className="object-cover"
+                      className="object-contain"
                       draggable={false}
                       fill
                       sizes="(min-width: 1024px) 40vw, 100vw"
@@ -140,7 +140,7 @@ export function ProductGallery({ items, title, wishlist }: ProductGalleryProps) 
                     aria-current={idx === index ? "true" : undefined}
                     aria-label={`Show image ${idx + 1}`}
                     className={cn(
-                      "relative block aspect-3/4 w-full overflow-hidden bg-muted opacity-60 outline-offset-2 transition-opacity hover:opacity-100",
+                      "relative block aspect-square w-full overflow-hidden bg-muted opacity-60 outline-offset-2 transition-opacity hover:opacity-100",
                       idx === index && "opacity-100 outline-1 outline-foreground",
                     )}
                     onClick={() => show(idx)}
@@ -149,7 +149,7 @@ export function ProductGallery({ items, title, wishlist }: ProductGalleryProps) 
                     {preview ? (
                       <Image
                         alt=""
-                        className="object-cover"
+                        className="object-contain"
                         fill
                         sizes="(min-width: 1024px) 8vw, 18vw"
                         src={preview.url}

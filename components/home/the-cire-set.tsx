@@ -51,7 +51,8 @@ async function ResolvedCireSet() {
           </p>
         </header>
 
-        <div className="grid gap-6">
+        {/* Capped so the square, uncropped set photos keep the section to one screen. */}
+        <div className="mx-auto grid w-full max-w-200 gap-6">
           <Link
             className="justify-self-end text-sm tracking-[0.08em] text-cream/80 uppercase underline underline-offset-4 transition-colors hover:text-cream"
             href={`/collections/${CIRE_SET_COLLECTION}`}
@@ -79,17 +80,19 @@ function BundleCardView({ bundle }: { bundle: BundleCard }) {
   const contents = SET_CONTENTS[bundle.handle] ?? bundle.components;
 
   return (
-    <article className="grid gap-3">
-      <Link className="group relative block aspect-17/10 overflow-hidden bg-cream/10" href={href}>
+    <article className="grid h-full grid-rows-[auto_1fr_auto] gap-3">
+      <Link className="group relative block aspect-square overflow-hidden" href={href}>
         {bundle.featuredImage ? (
           <Image
             alt={bundle.featuredImage.altText || bundle.title}
-            className="object-cover transition-transform duration-700 group-hover:scale-105"
+            className="object-contain transition-transform duration-700 group-hover:scale-105"
             fill
             sizes="(min-width: 768px) 45vw, 100vw"
             src={bundle.featuredImage.url}
           />
-        ) : null}
+        ) : (
+          <span className="absolute inset-0 bg-cream/10" />
+        )}
         {saving > 0 ? (
           <span className="absolute top-3 left-4 rounded-full bg-olive px-6 py-2 text-[13px] font-semibold tracking-[0.08em] uppercase">
             Save{" "}
@@ -97,7 +100,7 @@ function BundleCardView({ bundle }: { bundle: BundleCard }) {
           </span>
         ) : null}
       </Link>
-      <div className="grid gap-1 px-3">
+      <div className="grid content-start gap-1 px-3">
         <div className="flex items-baseline justify-between gap-4">
           <h3 className="font-serif text-[1.375rem] font-semibold tracking-[0.06em]">
             <Link className="transition-opacity hover:opacity-80" href={href}>
