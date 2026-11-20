@@ -58,7 +58,7 @@ export function buildOpenGraph({
   description,
   url,
   type,
-  images = ["/og-default.png"],
+  images = [{ alt: shopConfig.site.name, height: 628, url: "/og-default.png", width: 1200 }],
 }: {
   title: string;
   description?: string;

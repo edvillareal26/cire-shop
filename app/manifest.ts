@@ -18,7 +18,7 @@ export default function manifest(): MetadataRoute.Manifest {
       },
     ],
     name: shopConfig.site.name,
-    short_name: shopConfig.site.name,
+    short_name: "Cire",
     start_url: "/",
     theme_color: "#4c583e",
   };

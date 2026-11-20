@@ -89,6 +89,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
 
 export const generateMetadata = async (): Promise<Metadata> => {
   return {
+    // The full name truncates under a home-screen icon.
+    appleWebApp: { title: "Cire" },
     description: shopConfig.site.description,
     generator: shopConfig.site.name,
     metadataBase: new URL(shopConfig.site.url),
