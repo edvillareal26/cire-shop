@@ -5,6 +5,7 @@ import {
   ALL_PRODUCTS_HANDLE,
   ALL_PRODUCTS_PATH,
   describeCollection,
+  leadWithBundles,
   PRODUCTS_PER_PAGE,
   resolveBrowseParams,
 } from "@/lib/collections";
@@ -138,7 +139,14 @@ export async function getAllProductsResults(
     fetchSearchFacets({ locale: params.locale }),
   ]);
   tagProducts(products);
-  return { dataSearch: "", facets, pageInfo, products, source: { type: "search" }, total };
+  return {
+    dataSearch: "",
+    facets,
+    pageInfo,
+    products: leadWithBundles(products),
+    source: { type: "search" },
+    total,
+  };
 }
 
 // Filtered and sorted views stay live; a cache entry per combination would rarely be reused.

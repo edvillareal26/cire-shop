@@ -9,12 +9,21 @@ import {
 import type { BrowseState, Collection, SortValue } from "@/lib/collections/types";
 import { shopConfig } from "@/lib/config";
 import { summarizeText } from "@/lib/content";
+import type { ProductCard } from "@/lib/product/types";
 
 // The shop page is a local virtual collection with no Storefront API equivalent; it replaces the theme's /collections/all.
 export const ALL_PRODUCTS_HANDLE = "all";
 export const ALL_PRODUCTS_PATH = "/shop";
 
 export const PRODUCTS_PER_PAGE = 40;
+
+// Reorders one page only, so a bundle that search ranks past the first page stays where it is.
+export function leadWithBundles(products: ProductCard[]): ProductCard[] {
+  const bundles = products
+    .filter((product) => product.isBundle)
+    .toSorted((a, b) => Number(b.price.amount) - Number(a.price.amount));
+  return [...bundles, ...products.filter((product) => !product.isBundle)];
+}
 
 export function describeCollection(collection: Collection): string {
   return (

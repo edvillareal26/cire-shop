@@ -205,6 +205,7 @@ function transformProductCard(
     compareAtPrice: product.compareAtPriceRange.minVariantPrice,
     vendor: product.vendor || undefined,
     availableForSale: product.availableForSale,
+    isBundle: defaultVariant?.requiresComponents ?? false,
     isGiftCard: product.isGiftCard,
     defaultVariantSelectedOptions: cardVariant?.selectedOptions ?? [],
   };
@@ -247,6 +248,7 @@ export function transformShopifyProductDetails(product: ShopifyProduct): Product
     compareAtPrice: product.compareAtPriceRange.minVariantPrice,
     vendor: product.vendor || undefined,
     availableForSale: product.availableForSale,
+    isBundle: defaultVariant?.requiresComponents ?? false,
     isGiftCard: product.isGiftCard,
     adjacentVariants: product.adjacentVariants.map(transformVariant),
     allVariantsInStock:

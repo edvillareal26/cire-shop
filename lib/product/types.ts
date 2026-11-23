@@ -77,6 +77,7 @@ export interface ProductCard {
   featuredImage: Image | null;
   handle: string;
   id: string;
+  isBundle: boolean;
   isGiftCard: boolean;
   maxPrice: Money;
   price: Money;

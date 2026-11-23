@@ -184,6 +184,7 @@ export const PRODUCT_CARD_FRAGMENT = gql(
       }
     }
     selectedOrFirstAvailableVariant {
+      requiresComponents
       selectedOptions {
         name
         value
