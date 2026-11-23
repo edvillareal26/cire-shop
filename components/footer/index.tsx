@@ -19,7 +19,7 @@ interface FooterLink {
   url: string;
 }
 
-const CONTACT_EMAIL = "";
+const CONTACT_EMAIL = "hello@cirelashcollection.com";
 const SOCIAL_LINKS: SocialLink[] = [
   { platform: "facebook", url: "https://www.facebook.com/cirelashcollection" },
   { platform: "instagram", url: "https://www.instagram.com/cirelashcollection" },
@@ -61,6 +61,7 @@ const POLICIES: FooterLink[] = [
   { title: "Shipping Policy", url: "/policies/shipping-policy" },
   { title: "Refund Policy", url: "/policies/refund-policy" },
   { title: "Terms of Service", url: "/policies/terms-of-service" },
+  { title: "Disclaimer", url: "/pages/disclaimer" },
 ];
 
 const PAYMENT_METHODS = [
