@@ -14,8 +14,8 @@ export const CIRE_SET_COLLECTION = "the-cire-retention-collection";
 
 // Keyed by Shopify product handle; a set without an entry lists its Shopify Bundles components.
 const SET_CONTENTS: Record<string, string[]> = {
-  "cire-retention-set": ["Lash Adhesive", "Lash Super Bonder", "Lash Primer"],
-  "the-retention-duo": ["Lash Adhesive", "Lash Super Bonder"],
+  "cire-retention-duo": ["Lash Adhesive", "Lash Super Bonder"],
+  "cire-retention-set-1": ["Lash Adhesive", "Lash Super Bonder", "Lash Primer"],
 };
 
 export function TheCireSet() {
