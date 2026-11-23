@@ -7,7 +7,9 @@ import { MenuLink } from "@/components/nav/menu-link";
 import { Container } from "@/components/ui/container";
 import { Link } from "@/components/ui/link";
 import { CATEGORIES, getCategoryHref } from "@/lib/categories";
+import { getCollections } from "@/lib/collections/server";
 import { shopConfig } from "@/lib/config";
+import { getProduct } from "@/lib/product/server";
 
 import { SocialLinks } from "./social-links";
 import type { SocialLink } from "./social-links";
@@ -45,8 +47,8 @@ const COLLECTION: FooterLink[] = [
 ];
 
 const CUSTOMER_CARE: FooterLink[] = [
-  { title: "FAQs", url: "/pages/faqs" },
-  { title: "Shipping & Returns", url: "/pages/shipping-returns" },
+  { title: "FAQs", url: "/pages/faq" },
+  { title: "Shipping & Returns", url: "/pages/shipping-and-local-delivery" },
   {
     title: "Order Tracking",
     url: shopConfig.auth.isEnabled ? "/account/orders" : `${SHOPIFY_ACCOUNT_URL}/orders`,
@@ -76,7 +78,26 @@ const HEADING_CLASS =
 const LINK_CLASS =
   "text-[13px] tracking-[0.06em] text-cream/90 underline-offset-4 transition-colors hover:text-cream hover:underline";
 
-export function Footer() {
+const COLLECTION_PATH = "/collections/";
+const GIFT_CARD_HANDLE = "gift-card";
+
+// Links to a Shopify collection or the gift card stay hidden until Shopify has it, instead of opening a 404.
+async function getLinkFilter(): Promise<(link: FooterLink) => boolean> {
+  const [collections, giftCard] = await Promise.all([
+    getCollections(),
+    getProduct({ handle: GIFT_CARD_HANDLE }),
+  ]);
+  const handles = new Set(collections.map((collection) => collection.handle));
+  return (link) => {
+    if (link.url.startsWith(COLLECTION_PATH)) {
+      return handles.has(link.url.slice(COLLECTION_PATH.length));
+    }
+    return link.url !== `/products/${GIFT_CARD_HANDLE}` || giftCard !== undefined;
+  };
+}
+
+export async function Footer() {
+  const isLive = await getLinkFilter();
   return (
     <footer
       className="border-t border-cream/20 bg-olive text-cream [--foreground:var(--cream)] [--muted-foreground:var(--cream)]"
@@ -84,7 +105,7 @@ export function Footer() {
     >
       <Container className="pt-8 sm:px-10 lg:px-[6%]">
         <div className="grid grid-cols-2 gap-x-8 gap-y-12 lg:grid-cols-5">
-          <FooterColumn links={EXPLORE} title="Explore" />
+          <FooterColumn links={EXPLORE.filter(isLive)} title="Explore" />
           <FooterColumn links={COLLECTION} title="Collection" />
           <section
             aria-labelledby="footer-cire"
@@ -126,7 +147,7 @@ export function Footer() {
           </section>
           <FooterColumn
             className="lg:justify-self-end"
-            links={CUSTOMER_CARE}
+            links={CUSTOMER_CARE.filter(isLive)}
             title="Customer Care"
           />
           <FooterColumn className="lg:justify-self-end" links={POLICIES} title="Policies" />
