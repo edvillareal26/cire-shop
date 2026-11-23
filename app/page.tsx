@@ -7,6 +7,7 @@ import { ShopTheEssentials } from "@/components/home/shop-the-essentials";
 import { TheCireSet } from "@/components/home/the-cire-set";
 import { CireStandard, ToolsComingSoon } from "@/components/home/tools-and-standard";
 import { FullPage } from "@/components/layout/full-page";
+import { Link } from "@/components/ui/link";
 import { Page } from "@/components/ui/page";
 import { shopConfig } from "@/lib/config";
 import { buildAlternates, buildOpenGraph } from "@/lib/seo";
@@ -45,7 +46,7 @@ export default function HomePage() {
 const HERO_LANDSCAPE = "(orientation: landscape)";
 const HERO_PORTRAIT = "(orientation: portrait)";
 
-// Portrait screens get a tall version of the hero so the whole product lineup stays in view.
+// Portrait screens get a tall version of the hero with the products at the bottom and open wall above for the copy.
 function Hero() {
   const common = {
     alt: "Cire Lash Collection box with Lash Primer, Signature Bond, and Super Bonder on travertine",
@@ -70,10 +71,27 @@ function Hero() {
     >
       <picture>
         <source media={HERO_LANDSCAPE} srcSet={landscape.src} />
-        <img {...portrait} className="-z-10 object-cover" />
+        <img {...portrait} className="-z-10 object-cover object-bottom landscape:object-right" />
       </picture>
-      {/* The hero photo carries its own lettering, so the page heading stays off-screen. */}
-      <h1 className="sr-only">Perfect the ritual.</h1>
+      {/* The portrait photo's products fill a bottom band 66vw tall; the copy centres on the wall above it. */}
+      <div className="mx-auto flex w-full max-w-360 flex-col justify-center px-6 pt-19 portrait:pb-[66vw] sm:px-12 lg:px-[9.8%]">
+        <h1 className="font-serif text-[clamp(3.5rem,7vw,6.25rem)] leading-[0.95] font-light italic">
+          Perfect
+          <br />
+          the ritual.
+        </h1>
+        <p className="mt-6 font-serif text-base uppercase tracking-[0.12em] sm:text-lg">
+          Premium lash essentials
+          <br />
+          for a higher standard
+        </p>
+        <Link
+          className="mt-10 inline-flex w-fit items-center border border-cream/85 px-7 py-3.5 text-[13px] uppercase tracking-[0.24em] transition-colors hover:bg-cream hover:text-olive-deep sm:ml-13"
+          href="/shop"
+        >
+          Shop now
+        </Link>
+      </div>
     </section>
   );
 }
