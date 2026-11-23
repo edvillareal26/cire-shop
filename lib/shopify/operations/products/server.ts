@@ -299,38 +299,38 @@ export async function fetchProductsByIds({
     .map(transformShopifyProductCard);
 }
 
-const GET_COLLECTION_BUNDLES_QUERY = gql(
+const GET_BUNDLES_QUERY = gql(
   `#graphql
-  query getCollectionBundles($handle: String!, $first: Int!, $country: CountryCode, $language: LanguageCode) @inContext(country: $country, language: $language) {
-    collection(handle: $handle) {
-      products(first: $first, sortKey: PRICE) {
-        nodes {
+  query getBundles($country: CountryCode, $language: LanguageCode) @inContext(country: $country, language: $language) {
+    # Product queries have no bundle filter, so the newest page of the catalog is filtered after fetching.
+    products(first: 250, sortKey: CREATED_AT, reverse: true) {
+      nodes {
+        id
+        handle
+        title
+        featuredImage {
+          url
+          altText
+          width
+          height
+        }
+        selectedOrFirstAvailableVariant {
           id
-          handle
-          title
-          featuredImage {
-            url
-            altText
-            width
-            height
+          availableForSale
+          requiresComponents
+          price {
+            amount
+            currencyCode
           }
-          selectedOrFirstAvailableVariant {
-            id
-            availableForSale
-            price {
-              amount
-              currencyCode
-            }
-            compareAtPrice {
-              amount
-              currencyCode
-            }
-            components(first: 10) {
-              nodes {
-                productVariant {
-                  product {
-                    title
-                  }
+          compareAtPrice {
+            amount
+            currencyCode
+          }
+          components(first: 10) {
+            nodes {
+              productVariant {
+                product {
+                  title
                 }
               }
             }
@@ -342,25 +342,19 @@ const GET_COLLECTION_BUNDLES_QUERY = gql(
 `,
 );
 
-/** A collection's products as bundle cards; empty when the collection doesn't exist. */
-export async function fetchCollectionBundles({
-  collectionHandle,
+/** The newest Shopify Bundles products, newest first. */
+export async function fetchBundles({
   limit,
   locale = shopConfig.localization,
 }: {
-  collectionHandle: string;
   limit: number;
   locale?: CommerceLocale;
 }): Promise<BundleCard[]> {
-  const response = await storefront.request(GET_COLLECTION_BUNDLES_QUERY, {
-    locale,
-    variables: { first: limit, handle: collectionHandle },
-  });
-  assertStorefrontOk(response, "getCollectionBundles");
-  const products = response.data.collection?.products.nodes ?? [];
-  return products.flatMap((product) => {
+  const response = await storefront.request(GET_BUNDLES_QUERY, { locale });
+  assertStorefrontOk(response, "getBundles");
+  const bundles = response.data.products.nodes.flatMap((product) => {
     const variant = product.selectedOrFirstAvailableVariant;
-    if (!variant) return [];
+    if (!variant?.requiresComponents) return [];
     return [
       {
         availableForSale: variant.availableForSale,
@@ -382,6 +376,7 @@ export async function fetchCollectionBundles({
       },
     ];
   });
+  return bundles.slice(0, limit);
 }
 
 const GET_FIRST_PRODUCT_BY_TYPE_QUERY = gql(

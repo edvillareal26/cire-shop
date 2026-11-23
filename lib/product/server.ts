@@ -5,7 +5,7 @@ import type { CommerceLocale } from "@/lib/config/types";
 import type { BundleCard, ProductCard, ProductDetails, ProductPage } from "@/lib/product/types";
 import { getNumericShopifyId } from "@/lib/shopify/id/server";
 import {
-  fetchCollectionBundles,
+  fetchBundles,
   fetchFirstProductByType,
   fetchProduct,
   fetchProductRecommendations,
@@ -62,23 +62,16 @@ export async function getProductRecommendations(params: {
   return products;
 }
 
-export async function getCollectionBundles(params: {
-  collectionHandle: string;
+export async function getBundles(params: {
   limit: number;
   locale?: CommerceLocale;
 }): Promise<BundleCard[]> {
   "use cache: remote";
   cacheLife("max");
-  // Creating the collection, changing its products, or adding products all refresh this.
-  cacheTag(
-    "collections",
-    "collections-index",
-    `collection-${params.collectionHandle}`,
-    "products",
-    "products-index",
-  );
+  // New and deleted products refresh this; an existing product turned into a bundle waits for the next refresh.
+  cacheTag("products", "products-index");
 
-  const bundles = await fetchCollectionBundles(params);
+  const bundles = await fetchBundles(params);
   tagProducts(bundles);
   return bundles;
 }

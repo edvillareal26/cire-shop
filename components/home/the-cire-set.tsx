@@ -6,11 +6,8 @@ import { AddToCartButton } from "@/components/cart/add-to-cart-button";
 import { Container } from "@/components/ui/container";
 import { Link } from "@/components/ui/link";
 import { formatPrice } from "@/lib/money";
-import { getCollectionBundles } from "@/lib/product/server";
+import { getBundles } from "@/lib/product/server";
 import type { BundleCard } from "@/lib/product/types";
-
-/** Shopify collection holding the sets shown here; the footer's "The Cire Set" links to it too. */
-export const CIRE_SET_COLLECTION = "the-cire-retention-collection";
 
 // Keyed by Shopify product handle; a set without an entry lists its Shopify Bundles components.
 const SET_CONTENTS: Record<string, string[]> = {
@@ -26,16 +23,18 @@ export function TheCireSet() {
   );
 }
 
-// Hidden until the collection exists in Shopify and holds at least one product.
+// The four newest Shopify Bundles products, lowest price first; hidden while the store has none.
 async function ResolvedCireSet() {
-  const bundles = await getCollectionBundles({ collectionHandle: CIRE_SET_COLLECTION, limit: 4 });
-  if (bundles.length === 0) return null;
+  const newest = await getBundles({ limit: 4 });
+  if (newest.length === 0) return null;
+  const bundles = newest.toSorted((a, b) => Number(a.price.amount) - Number(b.price.amount));
 
   return (
     <section
       aria-labelledby="cire-set-heading"
-      className="grid min-h-section content-center bg-olive py-20 text-cream sm:pt-24 sm:pb-36"
+      className="grid min-h-section scroll-mt-19 content-center bg-olive py-20 text-cream sm:pt-24 sm:pb-36"
       data-full-page-section
+      id="cire-set"
     >
       <Container className="grid gap-10 sm:gap-8 lg:px-[5.8%]">
         <header className="relative grid justify-items-center pt-21 text-center sm:pt-[clamp(5.5rem,7.4vw,6.75rem)]">
@@ -55,7 +54,7 @@ async function ResolvedCireSet() {
         <div className="mx-auto grid w-full max-w-200 gap-6">
           <Link
             className="justify-self-end text-sm tracking-[0.08em] text-cream/80 uppercase underline underline-offset-4 transition-colors hover:text-cream"
-            href={`/collections/${CIRE_SET_COLLECTION}`}
+            href="/shop"
           >
             Shop the Cire Set →
           </Link>
