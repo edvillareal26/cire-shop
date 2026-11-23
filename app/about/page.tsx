@@ -9,8 +9,8 @@ import { Page } from "@/components/ui/page";
 import { Skeleton } from "@/components/ui/skeleton";
 import { shopConfig } from "@/lib/config";
 import { getPage } from "@/lib/pages/server";
-import { getSearchIndexProducts } from "@/lib/product/server";
 import { buildAlternates, buildOpenGraph } from "@/lib/seo";
+import aboutPhoto from "@/public/images/about.jpg";
 
 const PILLARS = [
   { body: "Clean definition and seamless application, set after set.", title: "Precision" },
@@ -43,9 +43,6 @@ async function AboutContent() {
   const page = await getPage({ handle: "about" });
   if (page) return <RichTextPage body={page.body} title={page.title} />;
 
-  const { products } = await getSearchIndexProducts({ limit: 1 });
-  const image = products[0]?.featuredImage;
-
   return (
     <Page>
       <Container className="grid gap-12 pb-16 sm:pb-24 md:grid-cols-2 md:items-center lg:gap-24">
@@ -66,18 +63,13 @@ async function AboutContent() {
             in every set.
           </p>
         </div>
-        {image && (
-          <div className="relative aspect-4/5 bg-muted">
-            <Image
-              alt={image.altText}
-              className="object-cover"
-              fill
-              loading="eager"
-              sizes="(min-width: 768px) 50vw, 100vw"
-              src={image.url}
-            />
-          </div>
-        )}
+        <Image
+          alt="Cire lash tray in its woven olive case beside Signature Bond, Lash Primer, and Super Bonder on travertine"
+          className="aspect-3/2 h-auto w-full bg-muted object-cover"
+          loading="eager"
+          sizes="100vw"
+          src={aboutPhoto}
+        />
       </Container>
       <section className="bg-muted py-16 sm:py-20">
         <Container>
@@ -113,7 +105,7 @@ function AboutSkeleton() {
           <Skeleton className="h-24 w-full max-w-md" />
           <Skeleton className="h-20 w-full" />
         </div>
-        <Skeleton className="aspect-4/5" />
+        <Skeleton className="aspect-3/2" />
       </Container>
     </Page>
   );
