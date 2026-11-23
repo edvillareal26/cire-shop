@@ -48,7 +48,6 @@ const COLLECTION: FooterLink[] = [
 
 const CUSTOMER_CARE: FooterLink[] = [
   { title: "FAQs", url: "/pages/faq" },
-  { title: "Shipping & Returns", url: "/pages/shipping-and-local-delivery" },
   {
     title: "Order Tracking",
     url: shopConfig.auth.isEnabled ? "/account/orders" : `${SHOPIFY_ACCOUNT_URL}/orders`,

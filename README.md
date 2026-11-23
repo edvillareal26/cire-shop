@@ -20,7 +20,7 @@ pnpm dev
 | New Arrivals, Best Sellers, Sale   | Collections `new-arrivals` (sort newest), `best-sellers` (sort best selling), `sale`; each footer link appears once its collection exists                                                                        |
 | The Retention Edit                 | Products made with the Shopify Bundles app. The four newest feed the home section (lowest price first), which the footer link scrolls to, and they lead the shop page; a compare-at price shows the "Save" badge |
 | Gift Cards                         | Product `gift-card`; the footer link appears once it exists                                                                                                                                                      |
-| FAQs, Shipping & Returns           | Pages `faq`, `shipping-and-local-delivery`; a page `about` replaces the default About copy                                                                                                                       |
+| FAQs                               | Page `faq`; a page `about` replaces the default About copy                                                                                                                                                       |
 | Shipping, Refund, Terms of Service | Settings → Policies                                                                                                                                                                                              |
 
 Contact email and social links are `CONTACT_EMAIL` and `SOCIAL_LINKS` in `components/footer/index.tsx`.
