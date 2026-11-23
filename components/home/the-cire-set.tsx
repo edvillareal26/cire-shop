@@ -43,7 +43,7 @@ async function ResolvedCireSet() {
             className="relative font-serif text-[clamp(2rem,2.8vw,2.5rem)]/none font-normal tracking-[0.1em] uppercase"
             id="cire-set-heading"
           >
-            The Cire Retention Edit
+            The Retention Edit
           </h2>
           <p className="relative mt-3 max-w-112 text-[13px] leading-snug tracking-[0.12em] text-cream/90">
             A considered selection of Cire essentials, brought together with intention.
