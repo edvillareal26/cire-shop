@@ -37,7 +37,7 @@ const EXPLORE: FooterLink[] = [
 const CATEGORY_LINK_TITLES: Record<string, string> = { "Lash Extensions": "Eyelash Trays" };
 
 const COLLECTION: FooterLink[] = [
-  { title: "The Cire Set", url: "/#cire-set" },
+  { title: "The Retention Edit", url: "/#cire-set" },
   ...CATEGORIES.map((category) => ({
     title: CATEGORY_LINK_TITLES[category.productType] ?? category.title,
     url: getCategoryHref(category),

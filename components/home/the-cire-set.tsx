@@ -43,7 +43,7 @@ async function ResolvedCireSet() {
             className="relative font-serif text-[clamp(2rem,2.8vw,2.5rem)]/none font-normal tracking-[0.1em] uppercase"
             id="cire-set-heading"
           >
-            The Cire Set
+            The Cire Retention Edit
           </h2>
           <p className="relative mt-3 max-w-112 text-[13px] leading-snug tracking-[0.12em] text-cream/90">
             A considered selection of Cire essentials, brought together with intention.
@@ -56,7 +56,7 @@ async function ResolvedCireSet() {
             className="justify-self-end text-sm tracking-[0.08em] text-cream/80 uppercase underline underline-offset-4 transition-colors hover:text-cream"
             href="/shop"
           >
-            Shop the Cire Set →
+            Shop the Retention Edit →
           </Link>
           <ul className="grid gap-x-18 gap-y-14 md:grid-cols-2">
             {bundles.map((bundle) => (
