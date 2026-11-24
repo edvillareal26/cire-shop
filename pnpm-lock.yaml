@@ -223,6 +223,9 @@ importers:
       next:
         specifier: 16.4.5
         version: 16.4.5(@types/node@26.6.6)(babel-plugin-react-compiler@1.0.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
+      nodemailer:
+        specifier: 10.4.1
+        version: 10.4.1
       oxfmt:
         specifier: 0.77.0
         version: 0.77.0
@@ -2087,6 +2090,10 @@ packages:
     version: 26.13.0
     hasBin: true
 
+  nodemailer@10.4.1:
+    resolution: {integrity: sha512-CyGM/J+n6W72v2B44BOkIrrQ/cvhm2fOa7fkQDHYOqtjM8stumU5ey3uv9oJ2ryShNit79NaEW/vXznvt/35vA==}
+    engines: {node: '>=20.0.0'}
+
   ocache@0.3.0:
     resolution: {integrity: sha512-RS/9P0zeBb0gDJmadGERLH8lZNXK7xbufTDhclkXGvFGTsj0G4M5/cLk+mizcERH29mLXNnocfB5wjcK70wGJg==}
 
@@ -3785,6 +3792,8 @@ snapshots:
       unstorage: 2.0.0-alpha.10
 
   node@runtime:26.13.0: {}
+
+  nodemailer@10.4.1: {}
 
   ocache@0.3.0: {}
 

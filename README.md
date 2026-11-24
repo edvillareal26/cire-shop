@@ -12,6 +12,7 @@ pnpm dev
 
 - `NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN`, `NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN`, `NEXT_PUBLIC_SHOPIFY_SHOP_ID`: required.
 - `SHOPIFY_ADMIN_CLIENT_ID` and `SHOPIFY_ADMIN_CLIENT_SECRET`: open The Cire List sign-ups at `/join` and in the home page's Cire Insider section. They come from a Dev Dashboard app with `read_customers` and `write_customers`, custom distribution, installed on the store in the same organization; the server trades them for 24-hour Admin API tokens. A store that already has a legacy custom app can set its `SHOPIFY_ADMIN_ACCESS_TOKEN` instead.
+- `SMTP_HOST`, `SMTP_USER` and `SMTP_PASSWORD`: open the enquiry form at `/contact`. Each enquiry goes to hello@ with the shopper as Reply-To, and the shopper gets a thank-you email from hello@. For Zoho, use `smtp.zoho.com` (`smtppro.zoho.com` on paid plans), hello@ as the user, and an application-specific password from Zoho's account security settings.
 
 ## Shopify content the storefront links to
 
@@ -52,7 +53,7 @@ The product page breadcrumb shows the product's first collection (other than the
 - Navigation and footer: `components/nav/`, `components/footer/index.tsx`, `lib/menu/server.ts` (Other menu from Shopify pages and policies). The logo sits centered on the home page and on the left everywhere else.
 - Cart: its own page at `/cart` (`components/cart/`); the template's slide-out drawer is removed. Add To Cart, quick add and the header cart icon all go to the page. Discount codes are entered at Shopify checkout, and shipping is calculated there.
 - Product page: `components/product-detail/` (gallery, breadcrumb, rating, options, buy buttons). Checkout Now buys just the chosen item through a `/buy/` permalink and leaves the cart alone; Buy with Shop is off in `lib/config/index.ts`.
-- Pages: `app/page.tsx` (home), `app/about/`, `app/join/` (The Cire List), `app/wishlist/`.
+- Pages: `app/page.tsx` (home), `app/about/`, `app/contact/` (Contact Information, replacing Shopify's contact policy page, which redirects there), `app/join/` (The Cire List), `app/wishlist/`.
 - Page spacing: `Page` (`components/ui/page.tsx`) pads every page `pt-16 pb-20 lg:pt-24 lg:pb-28` instead of the template's `pt-10`. The footer opens with a border, so the page itself needs bottom padding. The home page sets `py-0 lg:py-0` for its full-screen sections.
 - Shop page: `/shop` (`app/shop/`) lists every product; it is the template's `/collections/all`, which now redirects to it with its filters (`next.config.ts`). Collections keep `/collections/<handle>`, the same paths as the Shopify theme.
 - Home "Cire Insider" sign-up, the last section above the footer on the home page only: `components/home/cire-insider.tsx` with `components/join/subscribe-form.tsx`; both sign-up forms share `useJoinListForm` in `lib/newsletter/client.ts`.

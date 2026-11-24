@@ -67,7 +67,7 @@ export function StaticNavLink({ item }: { item: NavLinkItem }) {
   );
 }
 
-const OTHER_PREFIXES = ["/pages/", "/policies/"];
+const OTHER_PREFIXES = ["/contact", "/pages/", "/policies/"];
 const OTHER_TRIGGER_CLASS = cn(LINK_CLASS, "inline-flex items-center gap-1.5");
 
 export function OtherMenu({ items }: { items: MenuItem[] }) {

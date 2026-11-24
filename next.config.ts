@@ -27,7 +27,10 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   reactCompiler: true,
   // The shop page replaces the theme's /collections/all; links from Shopify emails and the old theme keep their filters.
-  redirects: async () => [{ destination: "/shop", permanent: true, source: "/collections/all" }],
+  redirects: async () => [
+    { destination: "/shop", permanent: true, source: "/collections/all" },
+    { destination: "/contact", permanent: true, source: "/policies/contact-information" },
+  ],
   turbopack: {
     rules: {
       "*.css": {

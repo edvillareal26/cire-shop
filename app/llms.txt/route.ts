@@ -1,5 +1,6 @@
 import { getCollections } from "@/lib/collections/server";
 import { shopConfig } from "@/lib/config";
+import { CONTACT_POLICY_HANDLE } from "@/lib/contact";
 import { summarizeText } from "@/lib/content";
 import { escapeMarkdown } from "@/lib/markdown";
 import { getShopPolicies } from "@/lib/policies/server";
@@ -16,9 +17,9 @@ export async function GET(): Promise<Response> {
     const summary = summarizeText(collection.description);
     return summary ? `- ${link}: ${escapeMarkdown(summary)}` : `- ${link}`;
   });
-  const policyLinks = policies.map(
-    (policy) => `- [${escapeMarkdown(policy.title)}](${url}/policies/${policy.handle})`,
-  );
+  const policyLinks = policies
+    .filter((policy) => policy.handle !== CONTACT_POLICY_HANDLE)
+    .map((policy) => `- [${escapeMarkdown(policy.title)}](${url}/policies/${policy.handle})`);
 
   return new Response(
     `# ${escapeMarkdown(name)}
@@ -45,6 +46,7 @@ Every call requires \`meta.ucp-agent.profile\`, your agent's UCP profile URL. Pa
 ## Policies
 
 ${[
+  `- [Contact Information](${url}/contact): Location, business hours, and an enquiry form.`,
   ...policyLinks,
   `- Policy and FAQ search: MCP tool \`search_shop_policies_and_faqs\` at \`POST ${url}/api/mcp\` answers questions about shipping, returns, and contacting the store.`,
 ].join("\n")}
