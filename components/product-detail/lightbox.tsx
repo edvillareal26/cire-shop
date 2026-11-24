@@ -36,7 +36,7 @@ export function Lightbox({ label, children }: { label: string; children: ReactNo
 
             {activeImage && (
               <div
-                className="pointer-events-none relative h-full max-w-full bg-background"
+                className="pointer-events-none relative h-full max-w-full"
                 style={{ aspectRatio: `${activeImage.width} / ${activeImage.height}` }}
               >
                 <Image
