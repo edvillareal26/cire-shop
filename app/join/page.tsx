@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import { getImageProps } from "next/image";
+import { preload } from "react-dom";
 
 import { Emblem } from "@/components/brand/emblem";
 import { Logo } from "@/components/brand/logo";
 import { JoinForm } from "@/components/join/join-form";
 import { Link } from "@/components/ui/link";
 import { buildAlternates, buildOpenGraph } from "@/lib/seo";
+import backgroundAvif from "@/public/images/cire-list-bg.avif";
 import background from "@/public/images/cire-list-bg.jpg";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -22,20 +24,29 @@ export async function generateMetadata(): Promise<Metadata> {
 
 // Sizes scale with window height so the composition fits laptop screens without scrolling.
 export default function JoinPage() {
+  const { props: photo } = getImageProps({
+    alt: "",
+    fetchPriority: "high",
+    fill: true,
+    loading: "eager",
+    placeholder: "blur",
+    sizes: "100vw",
+    src: background,
+    unoptimized: true,
+  });
+  preload(backgroundAvif.src, { as: "image", fetchPriority: "high", type: "image/avif" });
+
   return (
     <div className="relative isolate flex min-h-svh flex-1 flex-col overflow-hidden bg-[#1d1910] text-cream">
-      <Image
-        alt=""
-        className="-z-10 object-cover"
-        fill
-        placeholder="blur"
-        preload
-        src={background}
-        unoptimized
-      />
+      {/* The AVIF is a sharpened, larger copy of the JPEG; replace both together. */}
+      <picture>
+        <source srcSet={backgroundAvif.src} type="image/avif" />
+        <img {...photo} className="-z-10 object-cover" />
+      </picture>
+      {/* The photo is bright travertine; the scrim keeps the cream copy readable on it. */}
       <div
         aria-hidden
-        className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_50%_55%_at_50%_45%,rgba(20,17,11,0.4),transparent)]"
+        className="absolute inset-0 -z-10 bg-[#14110b]/50 bg-[radial-gradient(ellipse_50%_55%_at_50%_45%,rgba(20,17,11,0.4),transparent)]"
       />
 
       <header className="flex items-start justify-between px-5 pt-4 sm:pr-[4.7%] sm:pl-[4%]">
