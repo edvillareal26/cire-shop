@@ -1,9 +1,10 @@
 import { cn } from "cn";
 import { MoveRight } from "lucide-react";
-import Image, { getImageProps } from "next/image";
+import { getImageProps } from "next/image";
 import type { ReactNode } from "react";
 
 import { Link } from "@/components/ui/link";
+import standardAvif from "@/public/images/cire-standard.avif";
 import standardImage from "@/public/images/cire-standard.jpg";
 import toolsAvif from "@/public/images/cire-tools.avif";
 import toolsImage from "@/public/images/cire-tools.jpg";
@@ -24,9 +25,9 @@ export function ToolsComingSoon() {
   return (
     <section
       aria-labelledby="tools-heading"
-      className="relative isolate grid overflow-hidden bg-[#414140] text-white sm:block sm:aspect-2/1 lg:aspect-[43/10] lg:min-h-72"
+      className="relative isolate grid overflow-hidden bg-[#414140] text-white lg:block lg:aspect-[43/10] lg:min-h-72"
     >
-      <div className="grid content-center gap-5 px-6 py-14 sm:h-full sm:w-[55%] sm:px-12 sm:py-0 lg:w-[42%] lg:pl-[6.9%]">
+      <div className="grid content-center gap-5 px-6 py-14 sm:px-12 lg:h-full lg:w-[42%] lg:py-0 lg:pl-[6.9%]">
         <p className={EYEBROW_CLASS}>The Cire Tools</p>
         <div className="grid gap-3">
           <h2
@@ -43,12 +44,12 @@ export function ToolsComingSoon() {
           Be the first to know
         </ArrowLink>
       </div>
-      {/* Phones show the tweezers below the copy; wider screens set them on the right and fade the photo's plain left edge into the matching grey. */}
-      <div className="relative aspect-4/3 [mask-image:linear-gradient(to_bottom,transparent,black_25%)] sm:absolute sm:inset-y-0 sm:right-0 sm:-z-10 sm:aspect-auto sm:w-[55%] sm:[mask-image:linear-gradient(to_right,transparent,black_30%)] lg:w-[62%]">
+      {/* Wide screens run the photo's soft left side behind the copy; narrower screens show it below, wide enough to keep all three tips. */}
+      <div className="relative aspect-2/1 [mask-image:linear-gradient(to_bottom,transparent,black_25%)] sm:aspect-21/9 lg:absolute lg:inset-0 lg:-z-10 lg:aspect-auto lg:[mask-image:none]">
         {/* The AVIF is a sharpened, larger copy of the JPEG; replace both together. */}
         <picture>
           <source srcSet={toolsAvif.src} type="image/avif" />
-          <img {...tools} className="object-cover object-[85%_85%]" />
+          <img {...tools} className="object-cover object-right-bottom" />
         </picture>
       </div>
     </section>
@@ -56,22 +57,27 @@ export function ToolsComingSoon() {
 }
 
 export function CireStandard() {
+  const { props: standard } = getImageProps({
+    alt: "A Cire lash tray of black extensions in its woven olive case on travertine",
+    fill: true,
+    sizes: "100vw",
+    src: standardImage,
+    unoptimized: true,
+  });
   return (
     <section
       aria-labelledby="standard-heading"
       className={cn("grid bg-[#f9f9f9] lg:grid-cols-[45.5fr_54.5fr]", INK)}
     >
       <div className="relative aspect-[3/2] lg:aspect-auto lg:min-h-[30vw]">
-        <Image
-          alt="A Cire lash tray"
-          className="object-cover"
-          fill
-          src={standardImage}
-          unoptimized
-        />
-        <p className="absolute right-6 bottom-6 text-right text-[11px] leading-snug text-white uppercase sm:right-10">
+        {/* The AVIF is a sharpened, larger copy of the JPEG; replace both together. */}
+        <picture>
+          <source srcSet={standardAvif.src} type="image/avif" />
+          <img {...standard} className="object-cover" />
+        </picture>
+        <p className="absolute right-6 bottom-6 text-right text-[11px] leading-snug uppercase sm:right-10">
           <span className="block font-semibold">A higher</span>
-          <span className="block text-white/85">standard always</span>
+          <span className="block opacity-85">standard always</span>
         </p>
       </div>
       <div className="grid content-center gap-6 px-6 py-14 sm:px-12 lg:py-20 lg:pr-[8%] lg:pl-[8.2%]">
