@@ -1,10 +1,11 @@
 import { cn } from "cn";
 import { MoveRight } from "lucide-react";
-import Image from "next/image";
+import Image, { getImageProps } from "next/image";
 import type { ReactNode } from "react";
 
 import { Link } from "@/components/ui/link";
 import standardImage from "@/public/images/cire-standard.jpg";
+import toolsAvif from "@/public/images/cire-tools.avif";
 import toolsImage from "@/public/images/cire-tools.jpg";
 
 // Warm stone and espresso tones from the design, separate from the cream theme around them.
@@ -13,13 +14,17 @@ const EYEBROW_CLASS = "text-[13px] tracking-[0.26em] uppercase sm:text-sm lg:tex
 const HEADING_CLASS = "font-serif font-normal tracking-[-0.01em]";
 
 export function ToolsComingSoon() {
+  const { props: tools } = getImageProps({
+    alt: "Three Cire lash tweezers with textured handles and curved tips",
+    fill: true,
+    sizes: "100vw",
+    src: toolsImage,
+    unoptimized: true,
+  });
   return (
     <section
       aria-labelledby="tools-heading"
-      className={cn(
-        "relative isolate grid overflow-hidden bg-[#c3b9a8] lg:block lg:aspect-[43/10]",
-        INK,
-      )}
+      className="relative isolate grid overflow-hidden bg-[#b9b8b8] text-black lg:block lg:aspect-[43/10] lg:min-h-72"
     >
       <div className="grid content-center gap-5 px-6 py-14 sm:px-12 lg:h-full lg:w-[42%] lg:py-0 lg:pl-[6.9%]">
         <p className={EYEBROW_CLASS}>The Cire Tools</p>
@@ -38,15 +43,13 @@ export function ToolsComingSoon() {
           Be the first to know
         </ArrowLink>
       </div>
-      {/* The photo fades into the stone background on wide screens, where the text overlaps it. */}
-      <div className="relative aspect-[16/9] sm:aspect-[21/9] lg:absolute lg:inset-y-0 lg:right-0 lg:aspect-auto lg:w-[62%] lg:[mask-image:linear-gradient(to_right,transparent,black_22%)]">
-        <Image
-          alt="Cire lash tweezers resting on stone"
-          className="object-cover object-right"
-          fill
-          src={toolsImage}
-          unoptimized
-        />
+      {/* Wide screens set the copy on the photo's plain grey left side; narrower ones show the tweezers below the copy. */}
+      <div className="relative aspect-2/1 sm:aspect-3/1 lg:absolute lg:inset-0 lg:-z-10 lg:aspect-auto">
+        {/* The AVIF is a sharpened, larger copy of the JPEG; replace both together. */}
+        <picture>
+          <source srcSet={toolsAvif.src} type="image/avif" />
+          <img {...tools} className="object-cover object-[80%_50%]" />
+        </picture>
       </div>
     </section>
   );

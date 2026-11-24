@@ -11,7 +11,9 @@ import { Link } from "@/components/ui/link";
 import { Page } from "@/components/ui/page";
 import { shopConfig } from "@/lib/config";
 import { buildAlternates, buildOpenGraph } from "@/lib/seo";
+import heroLandscapeAvif from "@/public/images/hero-landscape.avif";
 import heroLandscape from "@/public/images/hero-landscape.jpg";
+import heroPortraitAvif from "@/public/images/hero-portrait.avif";
 import heroPortrait from "@/public/images/hero-portrait.jpg";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -61,8 +63,9 @@ function Hero() {
     loading: "eager",
     src: heroPortrait,
   });
-  preload(landscape.src, { as: "image", fetchPriority: "high", media: HERO_LANDSCAPE });
-  preload(portrait.src, { as: "image", fetchPriority: "high", media: HERO_PORTRAIT });
+  const avif = { as: "image", fetchPriority: "high", type: "image/avif" } as const;
+  preload(heroLandscapeAvif.src, { ...avif, media: HERO_LANDSCAPE });
+  preload(heroPortraitAvif.src, { ...avif, media: HERO_PORTRAIT });
 
   return (
     <section
@@ -70,7 +73,10 @@ function Hero() {
       data-full-page-section
     >
       <picture>
+        {/* Each AVIF is a sharpened, larger copy of the JPEG beside it; replace both together. */}
+        <source media={HERO_LANDSCAPE} srcSet={heroLandscapeAvif.src} type="image/avif" />
         <source media={HERO_LANDSCAPE} srcSet={landscape.src} />
+        <source srcSet={heroPortraitAvif.src} type="image/avif" />
         <img {...portrait} className="-z-10 object-cover object-bottom landscape:object-right" />
       </picture>
       {/* The portrait photo's products fill a bottom band 66vw tall; the copy centres on the wall above it. */}
