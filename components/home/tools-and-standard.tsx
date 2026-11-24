@@ -24,9 +24,9 @@ export function ToolsComingSoon() {
   return (
     <section
       aria-labelledby="tools-heading"
-      className="relative isolate grid overflow-hidden bg-[#b9b8b8] text-[#3b2921] lg:block lg:aspect-[43/10] lg:min-h-72"
+      className="relative isolate grid overflow-hidden bg-[#414140] text-white sm:block sm:aspect-2/1 lg:aspect-[43/10] lg:min-h-72"
     >
-      <div className="grid content-center gap-5 px-6 py-14 sm:px-12 lg:h-full lg:w-[42%] lg:py-0 lg:pl-[6.9%]">
+      <div className="grid content-center gap-5 px-6 py-14 sm:h-full sm:w-[55%] sm:px-12 sm:py-0 lg:w-[42%] lg:pl-[6.9%]">
         <p className={EYEBROW_CLASS}>The Cire Tools</p>
         <div className="grid gap-3">
           <h2
@@ -43,12 +43,12 @@ export function ToolsComingSoon() {
           Be the first to know
         </ArrowLink>
       </div>
-      {/* Wide screens set the copy on the photo's plain grey left side; narrower ones show the tweezers below the copy. */}
-      <div className="relative aspect-2/1 sm:aspect-3/1 lg:absolute lg:inset-0 lg:-z-10 lg:aspect-auto">
+      {/* Phones show the tweezers below the copy; wider screens set them on the right and fade the photo's plain left edge into the matching grey. */}
+      <div className="relative aspect-4/3 [mask-image:linear-gradient(to_bottom,transparent,black_25%)] sm:absolute sm:inset-y-0 sm:right-0 sm:-z-10 sm:aspect-auto sm:w-[55%] sm:[mask-image:linear-gradient(to_right,transparent,black_30%)] lg:w-[62%]">
         {/* The AVIF is a sharpened, larger copy of the JPEG; replace both together. */}
         <picture>
           <source srcSet={toolsAvif.src} type="image/avif" />
-          <img {...tools} className="object-cover object-[80%_50%]" />
+          <img {...tools} className="object-cover object-[85%_85%]" />
         </picture>
       </div>
     </section>
