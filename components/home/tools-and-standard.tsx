@@ -24,7 +24,7 @@ export function ToolsComingSoon() {
   return (
     <section
       aria-labelledby="tools-heading"
-      className="relative isolate grid overflow-hidden bg-[#b9b8b8] text-black lg:block lg:aspect-[43/10] lg:min-h-72"
+      className="relative isolate grid overflow-hidden bg-[#b9b8b8] text-[#3b2921] lg:block lg:aspect-[43/10] lg:min-h-72"
     >
       <div className="grid content-center gap-5 px-6 py-14 sm:px-12 lg:h-full lg:w-[42%] lg:py-0 lg:pl-[6.9%]">
         <p className={EYEBROW_CLASS}>The Cire Tools</p>
