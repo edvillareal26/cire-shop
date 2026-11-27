@@ -35,10 +35,14 @@ export async function sendEnquiryAction(input: EnquiryInput): Promise<EnquirySta
   try {
     await sendEmail({
       replyTo: email,
-      subject: `Website enquiry from ${name || email}`,
-      text: [`Name: ${name || "–"}`, `Email: ${email}`, `Phone: ${phone || "–"}`, "", message].join(
-        "\n",
-      ),
+      subject: "Website enquiry from Cire Contact Information Form",
+      text: [
+        `Name: ${name || "–"}`,
+        `Email: ${email}`,
+        `Phone Number: ${phone || "–"}`,
+        "Message:",
+        message,
+      ].join("\n"),
       to: CONTACT_EMAIL,
     });
   } catch (error) {
@@ -53,7 +57,7 @@ export async function sendEnquiryAction(input: EnquiryInput): Promise<EnquirySta
   try {
     await sendEmail({
       subject: "Thank you for your enquiry",
-      text: `${ENQUIRY_THANK_YOU}\n\nCire Lash Collection\nPerfect the ritual. Notice the detail.`,
+      text: "Thank you for your enquiry, we will get back to you as soon as possible.\n\nThe Cire Lash Collection Team",
       to: email,
     });
   } catch (error) {
