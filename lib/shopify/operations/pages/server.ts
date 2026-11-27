@@ -4,6 +4,7 @@ import { shopConfig } from "@/lib/config";
 import type { CommerceLocale } from "@/lib/config/types";
 import type { ContentPage, ContentPageLink } from "@/lib/pages/types";
 import { assertStorefrontOk } from "@/lib/shopify/errors/server";
+import { promoteBoldHeadings } from "@/lib/shopify/html";
 import { sanitizeShopifyHtml } from "@/lib/shopify/html/server";
 import { storefront } from "@/lib/shopify/storefront/server";
 
@@ -36,7 +37,7 @@ export async function fetchPage({
   if (!page) return undefined;
 
   return {
-    body: sanitizeShopifyHtml(page.body),
+    body: promoteBoldHeadings(sanitizeShopifyHtml(page.body)),
     handle: page.handle,
     seo: {
       description: page.seo?.description ?? page.bodySummary,

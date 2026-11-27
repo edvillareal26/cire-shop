@@ -5,6 +5,7 @@ import type { CommerceLocale } from "@/lib/config/types";
 import type { ShopPolicy } from "@/lib/policies/types";
 import { assertStorefrontOk } from "@/lib/shopify/errors/server";
 import { SHOP_POLICY_FRAGMENT } from "@/lib/shopify/fragments/policies";
+import { promoteBoldHeadings } from "@/lib/shopify/html";
 import { sanitizeShopifyHtml } from "@/lib/shopify/html/server";
 import { callShopifyMcpTool } from "@/lib/shopify/mcp/server";
 import { storefront } from "@/lib/shopify/storefront/server";
@@ -50,7 +51,10 @@ export async function fetchShopPolicies({
 
   return Object.values(response.data.shop)
     .filter((policy): policy is ShopPolicy => policy !== null && policy !== undefined)
-    .map((policy) => ({ ...policy, body: sanitizeShopifyHtml(policy.body) }));
+    .map((policy) => ({
+      ...policy,
+      body: promoteBoldHeadings(sanitizeShopifyHtml(policy.body)),
+    }));
 }
 
 export const POLICY_TYPES = [

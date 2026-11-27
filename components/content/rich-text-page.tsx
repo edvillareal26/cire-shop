@@ -12,7 +12,7 @@ export function RichTextPage({ body, title }: RichTextPageProps) {
   return (
     <Page>
       <Container className="max-w-4xl">
-        <Prose className="max-w-none prose-ol:ps-12 prose-ul:ps-12 prose-li:ps-2">
+        <Prose className="max-w-none prose-ol:ps-12 prose-ul:ps-12 prose-li:ps-2 prose-h2:mb-2">
           <h1>{title}</h1>
           <div
             // oxlint-disable-next-line react/no-danger -- Page and policy bodies pass through sanitizeShopifyHtml when fetched.
